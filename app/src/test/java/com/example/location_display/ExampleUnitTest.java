@@ -1,4 +1,4 @@
-package com.example.loacition_display;
+package com.example.location_display;
 
 import org.junit.Test;
 

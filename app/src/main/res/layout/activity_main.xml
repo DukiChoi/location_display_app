@@ -13,30 +13,68 @@
         android:layout_margin="20dp"
         android:src="@drawable/lion" />
 
+    <Button
+        android:id="@+id/right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:onClick="ToTheRight"
+        android:text="오른쪽"
+        app:layout_constraintBottom_toBottomOf="@+id/down_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.296"
+        app:layout_constraintStart_toEndOf="@+id/down_btn"
+        app:layout_constraintTop_toTopOf="@+id/down_btn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="ToTheLeft"
+        android:text="왼쪽"
+        app:layout_constraintBottom_toBottomOf="@+id/down_btn"
+        app:layout_constraintEnd_toStartOf="@+id/down_btn"
+        app:layout_constraintHorizontal_bias="0.841"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/down_btn"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/up_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
+        android:onClick="GoUp"
+        android:text="위"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/down_btn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/down_btn" />
+
+    <Button
+        android:id="@+id/down_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="GoDown"
+        android:text="아래"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.953" />
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/transX_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="showTranslationX"
-            android:text="가로방향" />
-
-        <Button
-            android:id="@+id/transY_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="showTranslationY"
-            android:text="세로방향" />
 
         <Button
             android:id="@+id/rotate_btn"
@@ -45,17 +83,6 @@
             android:layout_marginLeft="10dp"
             android:onClick="showRotate"
             android:text="회전" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/alpha_btn"
@@ -73,4 +100,37 @@
             android:onClick="showAlpha2"
             android:text="나타남" />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/X_EditText"
+            android:layout_width="85dp"
+            android:layout_height="48dp"
+            android:text="x값" />
+
+        <EditText
+            android:id="@+id/Y_EditText"
+            android:layout_width="85dp"
+            android:layout_height="48dp"
+            android:text="y값" />
+
+        <Button
+            android:id="@+id/move_btn"
+            android:layout_width="205dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:onClick="MoveTo"
+            android:text="이동" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

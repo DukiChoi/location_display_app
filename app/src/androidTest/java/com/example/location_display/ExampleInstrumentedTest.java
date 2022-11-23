@@ -1,4 +1,4 @@
-package com.example.loacition_display;
+package com.example.location_display;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.loacition_display", appContext.getPackageName());
+        assertEquals("com.example.location_display", appContext.getPackageName());
     }
 }
