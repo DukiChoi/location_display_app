@@ -27,6 +27,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
     public static Thread triggerService = null;
     private ImageView imageView;
+    private ImageView background;
     public static final String TAG = MainActivity.class.getCanonicalName();
     long animationDuration = 500; //1초
     float LocationX = 0;
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 //        x_edit.setOnEditorActionListener(X_Listener);
 //        y_edit.setOnEditorActionListener(Y_Listener);
         imageView = findViewById(R.id.image_view);
+        background= findViewById(R.id.back_ground);
+        imageView.bringToFront();
 
     }
 
@@ -216,12 +219,12 @@ public class MainActivity extends AppCompatActivity {
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
                 imageView,
                 "translationX",
-                PosX
+                PosX*3
         );
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(
                 imageView,
                 "translationY",
-                PosY
+                PosY*3
         );
         animatorX.setDuration(animationDuration);
         animatorX.start();

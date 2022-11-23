@@ -10,8 +10,17 @@
         android:id="@+id/image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:src="@drawable/lion" />
+        android:src="@drawable/lion"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <ImageView
+        android:id="@+id/back_ground"
+        android:layout_width="1080px"
+        android:layout_height="1920px"
+        android:src="@drawable/ground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/right_btn"
@@ -44,7 +53,7 @@
         android:id="@+id/up_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="76dp"
         android:onClick="GoUp"
         android:text="위"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -115,12 +124,14 @@
         <EditText
             android:id="@+id/X_EditText"
             android:layout_width="85dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/Y_EditText"
             android:layout_width="85dp"
-            android:layout_height="48dp" />
+            android:layout_height="48dp"
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/move_btn"
