@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity {
     long animationDuration = 500; //1초
     float LocationX = 0;
     float LocationY = 0;
-
-
+    float angle_to_turn = 0;
+    float last_angle = 0;
 
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
@@ -137,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //        animatorX.setDuration(animationDuration);
 //        animatorX.start();
-        LocationX = LocationX + 100;
+        //120dp 즉 360픽셀 씩 이동
+        LocationX = LocationX + 120;
         image_move(LocationX, LocationY);
     }
     //가로방향
@@ -151,7 +152,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //        animatorX.setDuration(animationDuration);
 //        animatorX.start();
-        LocationX = LocationX - 100;
+        //120dp 즉 360픽셀 씩 이동
+        LocationX = LocationX - 120;
         image_move(LocationX, LocationY);
     }
 
@@ -167,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //        animatorY.setDuration(animationDuration);
 //        animatorY.start();
-        LocationY = LocationY + 100;
+        //120dp 즉 360픽셀 씩 이동
+        LocationY = LocationY + 120;
         image_move(LocationX, LocationY);
     }
     //세로방향
@@ -182,16 +185,16 @@ public class MainActivity extends AppCompatActivity {
 //
 //        animatorY.setDuration(animationDuration);
 //        animatorY.start();
-        LocationY = LocationY - 100;
+        //120dp 즉 360픽셀 씩 이동
+        LocationY = LocationY - 120;
         image_move(LocationX, LocationY);
     }
 
     //회전
     public void showRotate(View view) {
-
-        ValueAnimator rotateAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
-        rotateAnimator.setDuration(animationDuration);
-        rotateAnimator.start();
+        last_angle = angle_to_turn;
+        angle_to_turn = angle_to_turn + 90;
+        image_rotate(last_angle, angle_to_turn);
     }
 
     //사라짐
@@ -230,5 +233,11 @@ public class MainActivity extends AppCompatActivity {
         animatorX.start();
         animatorY.setDuration(animationDuration);
         animatorY.start();
+    }
+
+    public void image_rotate(float angle1, float angle2){
+        ValueAnimator rotateAnimator = ObjectAnimator.ofFloat(imageView, "rotation", angle1, angle2);
+        rotateAnimator.setDuration(animationDuration);
+        rotateAnimator.start();
     }
 }
