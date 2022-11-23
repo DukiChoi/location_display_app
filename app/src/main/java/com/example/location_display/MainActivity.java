@@ -132,30 +132,14 @@ public class MainActivity extends AppCompatActivity {
         //width = view.getMeasuredWidth();
         //height = view.getMeasuredHeight();
 
-//        //ValueAnimator animatorX = ObjectAnimator.ofFloat(imageView, "translationX", 100f, 200f, 50f);
-//        ObjectAnimator animatorX = ObjectAnimator.ofFloat(
-//                imageView,
-//                "translationX",
-//                100
-//        );
-//
-//        animatorX.setDuration(animationDuration);
-//        animatorX.start();
+
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX + 120;
         image_move(LocationX, LocationY);
     }
     //가로방향
     public void ToTheLeft(View view) {
-//        //ValueAnimator animatorX = ObjectAnimator.ofFloat(imageView, "translationX", 100f, 200f, 50f);
-//        ObjectAnimator animatorX = ObjectAnimator.ofFloat(
-//                imageView,
-//                "translationX",
-//                100
-//        );
-//
-//        animatorX.setDuration(animationDuration);
-//        animatorX.start();
+
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX - 120;
         image_move(LocationX, LocationY);
@@ -164,15 +148,7 @@ public class MainActivity extends AppCompatActivity {
     //세로방향
     public void GoDown(View view) {
 
-//        //ValueAnimator animatorY = ObjectAnimator.ofFloat(imageView, "translationY", 100f, 200f, 50f);
-//        ObjectAnimator animatorY = ObjectAnimator.ofFloat(
-//                imageView,
-//                "translationY",
-//                100
-//        );
-//
-//        animatorY.setDuration(animationDuration);
-//        animatorY.start();
+
         //120dp 즉 360픽셀 씩 이동
         LocationY = LocationY + 120;
         image_move(LocationX, LocationY);
@@ -180,15 +156,7 @@ public class MainActivity extends AppCompatActivity {
     //세로방향
     public void GoUp(View view) {
 
-//        //ValueAnimator animatorY = ObjectAnimator.ofFloat(imageView, "translationY", 100f, 200f, 50f);
-//        ObjectAnimator animatorY = ObjectAnimator.ofFloat(
-//                imageView,
-//                "translationY",
-//                100
-//        );
-//
-//        animatorY.setDuration(animationDuration);
-//        animatorY.start();
+
         //120dp 즉 360픽셀 씩 이동
         LocationY = LocationY - 120;
         image_move(LocationX, LocationY);
