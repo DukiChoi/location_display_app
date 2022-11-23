@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     float LocationY = 0;
     float angle_to_turn = 0;
     float last_angle = 0;
+    float dp_value = 3;
+    //안드로이드의 dp값은 360dp, 640dp
+    //이 폰은 1080px, 1920px이므로 3배수.
+
 
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
@@ -222,12 +226,12 @@ public class MainActivity extends AppCompatActivity {
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
                 imageView,
                 "translationX",
-                PosX*3
+                PosX*dp_value
         );
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(
                 imageView,
                 "translationY",
-                PosY*3
+                PosY*dp_value
         );
         animatorX.setDuration(animationDuration);
         animatorX.start();
