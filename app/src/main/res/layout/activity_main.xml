@@ -115,14 +115,12 @@
         <EditText
             android:id="@+id/X_EditText"
             android:layout_width="85dp"
-            android:layout_height="48dp"
-            android:text="x값" />
+            android:layout_height="48dp" />
 
         <EditText
             android:id="@+id/Y_EditText"
             android:layout_width="85dp"
-            android:layout_height="48dp"
-            android:text="y값" />
+            android:layout_height="48dp" />
 
         <Button
             android:id="@+id/move_btn"
