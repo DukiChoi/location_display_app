@@ -393,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
                     }else if(option == 0){
                         option = -1;
                     }
-                    Thread.sleep(100);
                 }
             }catch(Exception e){ e.printStackTrace();}
         }
@@ -502,5 +501,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return array;
     }
-
 }
