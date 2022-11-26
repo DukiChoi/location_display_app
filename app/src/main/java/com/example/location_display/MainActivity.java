@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageView background;
     public static final String TAG = MainActivity.class.getCanonicalName();
-    long animationDuration = 500; //1초
+    long animationDuration = 0; //1초
     float LocationX = 0;
     float LocationY = 0;
     float angle_to_turn = 0;
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.bringToFront();
         IpThread ipthread = new IpThread();
         ipthread.start();
+        System.out.println("Ip is: " + ip);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -304,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         x_edit.setText(String.valueOf(LocationX));
         y_edit.setText(String.valueOf(LocationY));
         image_move(LocationX, LocationY);
-        System.out.println("Ip is: " + ip);
+
     }
 
     public void image_move(float PosX, float PosY){
@@ -380,13 +382,16 @@ public class MainActivity extends AppCompatActivity {
             try{
                 while(true){
                     if (option == -1) {
-                        socket_receive();
-//                        //스레드 안에서 UI 접근 -> 핸들러
-//                        handler.post(new Runnable() {
-//                            @Override public void run() {
-//                                System.out.println(input);
-//                            }
-//                        });
+                        String msg = socket_receive();
+                        String[] msg_array = sort_msg(msg);
+                        //스레드 안에서 UI 접근 -> 핸들러
+                        handler.post(new Runnable() {
+                            @Override public void run() {
+                                x_edit.setText(msg_array[0]);
+                                y_edit.setText(msg_array[1]);
+                                image_move(LocationX, LocationY);
+                            }
+                        });
 
                     }else if(option == 1){
                         option = -1;
@@ -409,7 +414,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     //받는 곳
-    public void socket_receive() throws IOException, ClassNotFoundException {
+    public String socket_receive() throws IOException, ClassNotFoundException {
         byte[] byteArr = new byte[1024];
         byte[] newbyte = null;
         is = socket.getInputStream();
@@ -420,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d("ClientThread", "받은 데이터: " + msg_received);
         Log.d("ClientThread", "받은 배열: " + Arrays.toString(newbyte));
 //        msg_recieved = new String(byteArr, 0, readByteCount, StandardCharsets.UTF_8);
-
+        return msg_received;
      }
 
     //보내는 곳
@@ -501,4 +506,12 @@ public class MainActivity extends AppCompatActivity {
         }
         return array;
     }
+
+    public static String[] sort_msg(String str){
+        String[] strAry = str.split(",");
+        String str1 = strAry[0].substring(1);
+        String str2 = strAry[1].substring(0, strAry[1].length() - 1);
+        return new String[] {str1, str2};
+    }
+
 }
