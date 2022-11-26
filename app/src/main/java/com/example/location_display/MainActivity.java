@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -38,6 +39,7 @@ import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Enumeration;
 
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private static Socket socket;
     private static ObjectOutputStream outstream;
     private static ObjectInputStream instream;
+    private static InputStream is;
     String ip;
     Handler handler = new Handler();
     int option = -1;
@@ -148,8 +151,20 @@ public class MainActivity extends AppCompatActivity {
         imageView.bringToFront();
         IpThread ipthread = new IpThread();
         ipthread.start();
-        ClientThread clientThread = new ClientThread();
-        clientThread.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket_open();
+                    ClientThread clientThread = new ClientThread(socket, is);
+                    clientThread.start();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
 
     }
 
@@ -291,7 +306,7 @@ public class MainActivity extends AppCompatActivity {
         image_move(LocationX, LocationY);
         System.out.println("Ip is: " + ip);
     }
-    
+
     public void image_move(float PosX, float PosY){
 
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
@@ -354,9 +369,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class ClientThread extends Thread{
+        ClientThread(Socket socket2){
+            socket = socket2;
+        }
+        ClientThread(Socket socket2, InputStream is2) throws IOException {
+            socket = socket2;
+            is = is2;
+        }
         public void run(){
             try{
-                socket_open();
                 while(true){
                     if (option == -1) {
                         socket_receive();
@@ -372,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
                     }else if(option == 0){
                         option = -1;
                     }
+                    Thread.sleep(100);
                 }
             }catch(Exception e){ e.printStackTrace();}
         }
@@ -381,24 +403,28 @@ public class MainActivity extends AppCompatActivity {
         String host = "192.168.0.9";
         int port = 5050;
         socket = new Socket(host, port);
-        instream = new ObjectInputStream(socket.getInputStream());
+        is = socket.getInputStream();
         outstream = new ObjectOutputStream(socket.getOutputStream());
         //서버로 데이터 주기
         System.out.println("연결 완료");
     }
-
+    
+    //받는 곳
     public void socket_receive() throws IOException, ClassNotFoundException {
-        byte[] byteArr = null;
-        String msg_recieved = "";
-        byteArr = new byte[512];
-
-        final Object input = instream.readObject();
-        Log.d("ClientThread", "받은 데이터: " + input);
+        byte[] byteArr = new byte[1024];
+        byte[] newbyte = null;
+        is = socket.getInputStream();
+        int length = is.read(byteArr, 0, 1024);
+        newbyte = garbage_collector(byteArr);
+        String msg_received = new String(newbyte);
+        //final Object msg_received = instream.readObject();
+        Log.d("ClientThread", "받은 데이터: " + msg_received);
+        Log.d("ClientThread", "받은 배열: " + Arrays.toString(newbyte));
 //        msg_recieved = new String(byteArr, 0, readByteCount, StandardCharsets.UTF_8);
-//        System.out.println("Data Received OK!");
-//        System.out.println("Message : "+ msg_recieved);
-    }
 
+     }
+
+    //보내는 곳
     public void socket_send(String msg_to_send) throws IOException{
         //서버에서부터 데이터 받기
 //        byte[] byteArr = null;
@@ -407,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
 
         outstream.writeObject(msg_to_send);
         outstream.flush();
-        System.out.println("Data Trasmitted :" + msg_to_send);
+        System.out.println("보낸 데이터 :" + msg_to_send);
 
 
     }
@@ -438,6 +464,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }catch(Exception e){ e.printStackTrace();}
         }
+    }
+
+    //바이트를 flaot으로 
+    public static float byteArrayToFloat(byte[] bytes) {
+        int intBits = bytes[0] << 24
+                | (bytes[1] & 0xFF) << 16
+                | (bytes[2] & 0xFF) << 8
+                | (bytes[3] & 0xFF);
+        return Float.intBitsToFloat(intBits);
+    }
+    //float을 바이트로
+    public static byte[] floatToByteArray(float value) {
+        int intBits =  Float.floatToIntBits(value);
+        return new byte[] {
+                (byte) (intBits >> 24),
+                (byte) (intBits >> 16),
+                (byte) (intBits >> 8),
+                (byte) (intBits) };
+    }
+
+    //byte 쓰레기 값 없애주는 함수..
+    public static byte[] garbage_collector(byte[] array){
+        int num = 1;
+        byte[] answer = {array[0]};
+        for(int i = 1; i < 1024; i++){
+            if(array[i] != 0){
+                num++;
+                byte[] buffer = new byte[num];
+                byte[] buffer2 = {array[i]};
+                System.arraycopy(answer, 0, buffer, 0, answer.length);
+                System.arraycopy(buffer2, 0, buffer, answer.length, buffer2.length);
+                answer = buffer;
+            }else{
+                return answer;
+            }
+        }
+        return array;
     }
 
 }
