@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     float dp_value = 3;
     EditText x_edit;
     EditText y_edit;
+    EditText host_edit;
     //안드로이드의 dp값은 360dp, 640dp
     //이 폰은 1080px, 1920px이므로 3배수.
     private static Socket socket;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private static ObjectInputStream instream;
     private static InputStream is;
     String ip;
+    String host = "192.168.0.9";
     Handler handler = new Handler();
     int option = -1;
     String input;
@@ -108,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         //EditText 리스너인데 작동을 안하네..
         x_edit = (EditText) findViewById(R.id.X_EditText);
         y_edit = (EditText) findViewById(R.id.Y_EditText);
-
+        host_edit = (EditText) findViewById(R.id.host_EditText);
         x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -149,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 //        y_edit.setOnEditorActionListener(Y_Listener);
         imageView = findViewById(R.id.image_view);
         background= findViewById(R.id.back_ground);
+        //이미지 맨 앞으로
         imageView.bringToFront();
         IpThread ipthread = new IpThread();
         ipthread.start();
@@ -319,6 +322,10 @@ public class MainActivity extends AppCompatActivity {
         image_move(LocationX, LocationY);
 
     }
+    public void ip_setting(View view){
+        host = host_edit.getText().toString();
+        System.out.println("Host is changed into : " + host);
+    }
 
     public void image_move(float PosX, float PosY){
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
@@ -336,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
         animatorY.setDuration(animationDuration);
         animatorY.start();
     }
+
 
     public void image_rotate(float angle1, float angle2){
         ValueAnimator rotateAnimator = ObjectAnimator.ofFloat(imageView, "rotation", angle1, angle2);
@@ -415,7 +423,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void socket_open() throws IOException {
-        String host = "192.168.0.9";
         int port = 8080;
         socket = new Socket(host, port);
         is = socket.getInputStream();

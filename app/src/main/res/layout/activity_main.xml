@@ -7,6 +7,13 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:id="@+id/back_ground"
+        android:layout_width="1080px"
+        android:layout_height="1920px"
+        android:src="@drawable/ground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
         android:id="@+id/image_view"
         android:layout_width="180px"
         android:layout_height="160px"
@@ -16,15 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/back_ground"
-        android:layout_width="1080px"
-        android:layout_height="1920px"
-        android:src="@drawable/ground"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    <Button-->
+    <!--    <Button-->
 <!--        android:id="@+id/right_btn"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
@@ -112,28 +111,76 @@
 <!--            android:text="나타남" />-->
 <!--    </LinearLayout>-->
 
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
-        android:layout_marginBottom="50dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "ip 주소:"
+            android:textColor="@color/design_default_color_secondary_variant"
+            />
+        <EditText
+            android:id="@+id/host_EditText"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@color/design_default_color_secondary_variant"
+            tools:layout_editor_absoluteX="137dp"
+            tools:layout_editor_absoluteY="31dp" />
 
+        <Button
+            android:id="@+id/_btn"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:onClick="ip_setting"
+            android:text="연결" />
+    </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "좌표:"
+            android:textColor="@color/design_default_color_secondary_variant"
+            />
         <EditText
             android:id="@+id/X_EditText"
             android:layout_width="70dp"
             android:layout_height="50dp"
+            android:backgroundTint="@color/design_default_color_secondary_variant"
             android:inputType="numberSigned" />
 
         <EditText
             android:id="@+id/Y_EditText"
             android:layout_width="70dp"
             android:layout_height="50dp"
+            android:backgroundTint="@color/design_default_color_secondary_variant"
             android:inputType="numberSigned" />
 
         <Button
@@ -144,5 +191,6 @@
             android:onClick="MoveTo"
             android:text="이동" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
