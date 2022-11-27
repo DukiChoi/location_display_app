@@ -256,8 +256,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX + 120;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.valueOf(temp[0]));
-        y_edit.setText(String.valueOf(temp[1]));
+        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
+        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
     }
     //가로방향
     public void ToTheLeft(View view) {
@@ -266,8 +266,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX - 120;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.valueOf(temp[0]));
-        y_edit.setText(String.valueOf(temp[1]));
+        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
+        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
     }
 
     //세로방향
@@ -278,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
         LocationY = LocationY + 320/3;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.valueOf(temp[0]));
-        y_edit.setText(String.valueOf(temp[1]));
+        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
+        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
     }
     //세로방향
     public void GoUp(View view) {
@@ -289,8 +289,8 @@ public class MainActivity extends AppCompatActivity {
         LocationY = LocationY - 320/3;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.valueOf(temp[0]));
-        y_edit.setText(String.valueOf(temp[1]));
+        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
+        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
     }
 
     //회전
@@ -318,8 +318,8 @@ public class MainActivity extends AppCompatActivity {
     //좌표로 이동
     public void MoveTo(View view) {
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.valueOf(temp[0]));
-        y_edit.setText(String.valueOf(temp[1]));
+        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
+        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
         image_move(LocationX, LocationY);
 
     }
@@ -439,8 +439,8 @@ public class MainActivity extends AppCompatActivity {
                         //스레드 안에서 UI 접근 -> 핸들러
                         handler.post(new Runnable() {
                             @Override public void run() {
-                                x_edit.setText(msg_array[0]);
-                                y_edit.setText(msg_array[1]);
+                                x_edit.setText(String.format("%.3f", msg_array[0]));
+                                y_edit.setText(String.format("%.3f", msg_array[1]));
                                 image_move(LocationX, LocationY);
                             }
                         });
