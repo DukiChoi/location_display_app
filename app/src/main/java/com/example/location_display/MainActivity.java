@@ -2,7 +2,6 @@ package com.example.location_display;
 
 import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
@@ -256,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX + 120;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
-        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
+        x_edit.setText(String.format("%.3f",temp[0]));
+        y_edit.setText(String.format("%.3f",temp[1]));
     }
     //가로방향
     public void ToTheLeft(View view) {
@@ -266,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX - 120;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
-        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
+        x_edit.setText(String.format("%.3f",temp[0]));
+        y_edit.setText(String.format("%.3f",temp[1]));
     }
 
     //세로방향
@@ -275,22 +274,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         //120dp 즉 360픽셀 씩 이동
-        LocationY = LocationY + 320/3;
+        LocationY = LocationY + Math.round(320/3*1000)/1000;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
-        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
+        x_edit.setText(String.format("%.3f",temp[0]));
+        y_edit.setText(String.format("%.3f",temp[1]));
     }
     //세로방향
     public void GoUp(View view) {
 
 
         //120dp 즉 360픽셀 씩 이동
-        LocationY = LocationY - 320/3;
+        LocationY = LocationY - Math.round(320/3*1000)/1000;
         image_move(LocationX, LocationY);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
-        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
+        x_edit.setText(String.format("%.3f",temp[0]));
+        y_edit.setText(String.format("%.3f",temp[1]));
     }
 
     //회전
@@ -318,8 +317,8 @@ public class MainActivity extends AppCompatActivity {
     //좌표로 이동
     public void MoveTo(View view) {
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f", String.valueOf(temp[0])));
-        y_edit.setText(String.format("%.3f", String.valueOf(temp[1])));
+        x_edit.setText(String.format("%.3f",temp[0]));
+        y_edit.setText(String.format("%.3f",temp[1]));
         image_move(LocationX, LocationY);
 
     }
@@ -432,6 +431,7 @@ public class MainActivity extends AppCompatActivity {
         }
         public void run(){
             try{
+                final float[] xy = {0,0};
                 while(true){
                     if (option == -1) {
                         String msg = socket_receive();
@@ -439,8 +439,10 @@ public class MainActivity extends AppCompatActivity {
                         //스레드 안에서 UI 접근 -> 핸들러
                         handler.post(new Runnable() {
                             @Override public void run() {
-                                x_edit.setText(String.format("%.3f", msg_array[0]));
-                                y_edit.setText(String.format("%.3f", msg_array[1]));
+                                xy[0] = Float.parseFloat(msg_array[0]);
+                                xy[1] = Float.parseFloat(msg_array[1]);
+                                x_edit.setText(String.format("%.3f",xy[0]));
+                                y_edit.setText(String.format("%.3f",xy[1]));
                                 image_move(LocationX, LocationY);
                             }
                         });
@@ -565,7 +567,6 @@ public class MainActivity extends AppCompatActivity {
         return new String[] {str1, str2};
     }
     public static float[] coordinate_transform_to_dp(float x, float y){
-
         x = 45*(x+4);
         y = 40*(-1*y+16);
         return new float[] {x, y};
