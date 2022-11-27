@@ -8,11 +8,13 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/lion"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_width="180px"
+        android:layout_height="160px"
+        android:layout_marginStart="-90px"
+        android:layout_marginTop="-80px"
+        android:src="@drawable/car"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/back_ground"
@@ -22,121 +24,122 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/right_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:onClick="ToTheRight"
-        android:text="오른쪽"
-        app:layout_constraintBottom_toBottomOf="@+id/down_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.296"
-        app:layout_constraintStart_toEndOf="@+id/down_btn"
-        app:layout_constraintTop_toTopOf="@+id/down_btn"
-        app:layout_constraintVertical_bias="0.0" />
+<!--    <Button-->
+<!--        android:id="@+id/right_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="36dp"-->
+<!--        android:onClick="ToTheRight"-->
+<!--        android:text="오른쪽"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/down_btn"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.296"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/down_btn"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/down_btn"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
 
-    <Button
-        android:id="@+id/left_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="ToTheLeft"
-        android:text="왼쪽"
-        app:layout_constraintBottom_toBottomOf="@+id/down_btn"
-        app:layout_constraintEnd_toStartOf="@+id/down_btn"
-        app:layout_constraintHorizontal_bias="0.841"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/down_btn"
-        app:layout_constraintVertical_bias="0.0" />
+<!--    <Button-->
+<!--        android:id="@+id/left_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="ToTheLeft"-->
+<!--        android:text="왼쪽"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/down_btn"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/down_btn"-->
+<!--        app:layout_constraintHorizontal_bias="0.841"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/down_btn"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
 
-    <Button
-        android:id="@+id/up_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
-        android:onClick="GoUp"
-        android:text="위"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/down_btn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/down_btn" />
+<!--    <Button-->
+<!--        android:id="@+id/up_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="76dp"-->
+<!--        android:onClick="GoUp"-->
+<!--        android:text="위"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/down_btn"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/down_btn" />-->
 
-    <Button
-        android:id="@+id/down_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="GoDown"
-        android:text="아래"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+<!--    <Button-->
+<!--        android:id="@+id/down_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="GoDown"-->
+<!--        android:text="아래"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.498"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.953" />-->
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginLeft="30dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
 
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+<!--        <Button-->
+<!--            android:id="@+id/rotate_btn"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:onClick="showRotate"-->
+<!--            android:text="회전" />-->
 
-        <Button
-            android:id="@+id/rotate_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="showRotate"
-            android:text="회전" />
+<!--        <Button-->
+<!--            android:id="@+id/alpha_btn"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:onClick="showAlpha"-->
+<!--            android:text="사라짐" />-->
 
-        <Button
-            android:id="@+id/alpha_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="showAlpha"
-            android:text="사라짐" />
-
-        <Button
-            android:id="@+id/alpha_btn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:onClick="showAlpha2"
-            android:text="나타남" />
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/alpha_btn2"-->
+<!--            android:layout_width="100dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:onClick="showAlpha2"-->
+<!--            android:text="나타남" />-->
+<!--    </LinearLayout>-->
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="50dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/X_EditText"
-            android:layout_width="85dp"
-            android:layout_height="48dp"
-            android:inputType="numberDecimal" />
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:inputType="numberSigned" />
 
         <EditText
             android:id="@+id/Y_EditText"
-            android:layout_width="85dp"
-            android:layout_height="48dp"
-            android:inputType="numberDecimal" />
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:inputType="numberSigned" />
 
         <Button
             android:id="@+id/move_btn"
-            android:layout_width="205dp"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:onClick="MoveTo"
             android:text="이동" />

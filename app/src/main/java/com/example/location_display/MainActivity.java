@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView background;
     public static final String TAG = MainActivity.class.getCanonicalName();
     long animationDuration = 0; //1초
+
+    //여기에는 px값으로 저장한다.
     float LocationX = 0;
     float LocationY = 0;
     float angle_to_turn = 0;
@@ -117,8 +119,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    Float.parseFloat(s.toString());
-                    LocationX = Float.parseFloat(s.toString());
+                    LocationX = coordinate_transform_to_dp(Float.parseFloat(s.toString()), 0)[0];
                 } catch(NumberFormatException e) {
                     // Not float
                 }
@@ -136,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    Float.parseFloat(s.toString());
-                    LocationY = Float.parseFloat(s.toString());
+                    LocationY = coordinate_transform_to_dp(0, Float.parseFloat(s.toString()))[1];
                 } catch(NumberFormatException e) {
                     // Not float
                 }
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         imageView.bringToFront();
         IpThread ipthread = new IpThread();
         ipthread.start();
-        System.out.println("Ip is: " + ip);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -232,6 +232,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause(){
+        super.onPause();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
+
 
     //가로방향
     public void ToTheRight(View view) {
@@ -242,9 +251,9 @@ public class MainActivity extends AppCompatActivity {
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX + 120;
         image_move(LocationX, LocationY);
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
-
+        float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
+        x_edit.setText(String.valueOf(temp[0]));
+        y_edit.setText(String.valueOf(temp[1]));
     }
     //가로방향
     public void ToTheLeft(View view) {
@@ -252,8 +261,9 @@ public class MainActivity extends AppCompatActivity {
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX - 120;
         image_move(LocationX, LocationY);
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
+        float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
+        x_edit.setText(String.valueOf(temp[0]));
+        y_edit.setText(String.valueOf(temp[1]));
     }
 
     //세로방향
@@ -261,20 +271,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         //120dp 즉 360픽셀 씩 이동
-        LocationY = LocationY + 120;
+        LocationY = LocationY + 320/3;
         image_move(LocationX, LocationY);
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
+        float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
+        x_edit.setText(String.valueOf(temp[0]));
+        y_edit.setText(String.valueOf(temp[1]));
     }
     //세로방향
     public void GoUp(View view) {
 
 
         //120dp 즉 360픽셀 씩 이동
-        LocationY = LocationY - 120;
+        LocationY = LocationY - 320/3;
         image_move(LocationX, LocationY);
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
+        float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
+        x_edit.setText(String.valueOf(temp[0]));
+        y_edit.setText(String.valueOf(temp[1]));
     }
 
     //회전
@@ -282,8 +294,6 @@ public class MainActivity extends AppCompatActivity {
         last_angle = angle_to_turn;
         angle_to_turn = angle_to_turn + 90;
         image_rotate(last_angle, angle_to_turn);
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
     }
 
     //사라짐
@@ -303,14 +313,14 @@ public class MainActivity extends AppCompatActivity {
 
     //좌표로 이동
     public void MoveTo(View view) {
-        x_edit.setText(String.valueOf(LocationX));
-        y_edit.setText(String.valueOf(LocationY));
+        float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
+        x_edit.setText(String.valueOf(temp[0]));
+        y_edit.setText(String.valueOf(temp[1]));
         image_move(LocationX, LocationY);
 
     }
 
     public void image_move(float PosX, float PosY){
-
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
                 imageView,
                 "translationX",
@@ -367,6 +377,7 @@ public class MainActivity extends AppCompatActivity {
                 ip = getLocalIpAddress();
                 Log.i("경과된 시간 : ", Integer.toString(second));
             }
+            System.out.println("Ip is: " + ip);
         }
     }
 
@@ -405,7 +416,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void socket_open() throws IOException {
         String host = "192.168.0.9";
-        int port = 5050;
+        int port = 8080;
         socket = new Socket(host, port);
         is = socket.getInputStream();
         outstream = new ObjectOutputStream(socket.getOutputStream());
@@ -445,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
     class ClientThread2 extends Thread{
         public void run(){
             String host = "192.168.0.9";
-            int port = 5050;
+            int port = 8080;
             try{
                 socket = new Socket(host, port);
                 //서버로 데이터 주기
@@ -512,6 +523,18 @@ public class MainActivity extends AppCompatActivity {
         String str1 = strAry[0].substring(1);
         String str2 = strAry[1].substring(0, strAry[1].length() - 1);
         return new String[] {str1, str2};
+    }
+    public static float[] coordinate_transform_to_dp(float x, float y){
+
+        x = 45*(x+4);
+        y = 40*(-1*y+16);
+        return new float[] {x, y};
+    }
+
+    public static float[] coordinate_transform_from_dp(float x, float y){
+        x = x/45-4;
+        y = -1*(y/40 - 16);
+        return new float[] {x, y};
     }
 
 }
