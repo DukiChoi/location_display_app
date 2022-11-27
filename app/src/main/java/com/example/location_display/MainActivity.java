@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         x_edit = (EditText) findViewById(R.id.X_EditText);
         y_edit = (EditText) findViewById(R.id.Y_EditText);
         host_edit = (EditText) findViewById(R.id.host_EditText);
+        host_edit.setText(host);
         x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -323,8 +324,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void ip_setting(View view){
-        host = host_edit.getText().toString();
-        System.out.println("Host is changed into : " + host);
+        //if(!host.equals(host_edit.getText().toString())) {
+            host = host_edit.getText().toString();
+            System.out.println("Host is changed into : " + host);
+//            try {
+//                instream.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                outstream.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            try {
+//                socket.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            //다 끊은 다음 다시 소켓통신 시작
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        socket_open();
+                        ClientThread clientThread = new ClientThread(socket, is);
+                        clientThread.start();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        //}
     }
 
     public void image_move(float PosX, float PosY){
