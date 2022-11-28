@@ -65,10 +65,11 @@ public class MainActivity extends AppCompatActivity {
     private static ObjectInputStream instream;
     private static InputStream is;
     String ip;
-    String host = "192.168.0.9";
+    String host = "192.168.0.100";
+    int port = 8081;
     Handler handler = new Handler();
     int option = -1;
-    String input;
+    String input = ".";
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
 //        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
@@ -184,30 +185,32 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_On) {
             option = 1;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        socket_send("s");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        socket_send("s");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+            input = "s";
             System.out.println("option Changed into: " + option);
             return true;
         } else if (item.getItemId() == R.id.action_Off) {
             option = 0;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        socket_send("f");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        socket_send("f");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+            input = "f";
             System.out.println("option Changed into: " + option);
             return true;
         }
@@ -356,6 +359,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }).start();
+
         //}
     }
 
@@ -435,16 +439,20 @@ public class MainActivity extends AppCompatActivity {
                 while(true){
                     if (option == -1) {
                         String msg = socket_receive();
+                        socket_send(input);
                         String[] msg_array = sort_msg(msg);
                         //스레드 안에서 UI 접근 -> 핸들러
                         handler.post(new Runnable() {
-                            @Override public void run() {
+                            @Override
+                            public void run() {
                                 try {
                                     xy[0] = Float.parseFloat(msg_array[0]);
                                     xy[1] = Float.parseFloat(msg_array[1]);
-                                }catch(Exception e){ e.printStackTrace();}
-                                x_edit.setText(String.format("%.3f",xy[0]));
-                                y_edit.setText(String.format("%.3f",xy[1]));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                x_edit.setText(String.format("%.3f", xy[0]));
+                                y_edit.setText(String.format("%.3f", xy[1]));
                                 image_move(LocationX, LocationY);
                             }
                         });
@@ -460,7 +468,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void socket_open() throws IOException {
-        int port = 8080;
         socket = new Socket(host, port);
         is = socket.getInputStream();
         outstream = new ObjectOutputStream(socket.getOutputStream());
@@ -475,6 +482,7 @@ public class MainActivity extends AppCompatActivity {
         is = socket.getInputStream();
         int length = is.read(byteArr, 0, 1024);
         newbyte = garbage_collector(byteArr);
+
         String msg_received = new String(newbyte);
         //final Object msg_received = instream.readObject();
         Log.d("ClientThread", "받은 데이터: " + msg_received);
@@ -490,11 +498,15 @@ public class MainActivity extends AppCompatActivity {
 //        byteArr = msg_to_send.getBytes(StandardCharsets.UTF_8);
 //        outstream.write(byteArr);
 
-        outstream.writeObject(msg_to_send);
+
+        outstream.writeObject(msg_to_send.getBytes(StandardCharsets.UTF_8));
+        //string -> byte array
+
         outstream.flush();
+        System.out.println("보낸 데이터 :" + Arrays.toString(msg_to_send.getBytes(StandardCharsets.UTF_8)));
         System.out.println("보낸 데이터 :" + msg_to_send);
-
-
+        if(msg_to_send.equals("s") || msg_to_send.equals("f"))
+            input = ".";
     }
 
     class ClientThread2 extends Thread{
