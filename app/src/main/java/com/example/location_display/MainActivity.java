@@ -439,8 +439,10 @@ public class MainActivity extends AppCompatActivity {
                         //스레드 안에서 UI 접근 -> 핸들러
                         handler.post(new Runnable() {
                             @Override public void run() {
-                                xy[0] = Float.parseFloat(msg_array[0]);
-                                xy[1] = Float.parseFloat(msg_array[1]);
+                                try {
+                                    xy[0] = Float.parseFloat(msg_array[0]);
+                                    xy[1] = Float.parseFloat(msg_array[1]);
+                                }catch(Exception e){ e.printStackTrace();}
                                 x_edit.setText(String.format("%.3f",xy[0]));
                                 y_edit.setText(String.format("%.3f",xy[1]));
                                 image_move(LocationX, LocationY);
