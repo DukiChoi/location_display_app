@@ -180,42 +180,43 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return true /* show menu */;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_On) {
-            option = 1;
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        socket_send("s");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).start();
-            input = "s";
-            System.out.println("option Changed into: " + option);
-            return true;
-        } else if (item.getItemId() == R.id.action_Off) {
-            option = 0;
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        socket_send("f");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).start();
-            input = "f";
-            System.out.println("option Changed into: " + option);
-            return true;
-        }
-        return false;
-    }
+    // 원래 상단 바의 메뉴에 On/Off 를 넣어서 각각 s / f 의 string으로 바꾸어서 소켓에 보내는 역할을 수행했었음.
+    // 참고로 메뉴의 버튼으로는 string 변수의 값만 바꿔주고 socket_send는 아래 루프문에서 해준다.
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (item.getItemId() == R.id.action_On) {
+//            option = 1;
+////            new Thread(new Runnable() {
+////                @Override
+////                public void run() {
+////                    try {
+////                        socket_send("s");
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+////                    }
+////                }
+////            }).start();
+//            input = "s";
+//            System.out.println("option Changed into: " + option);
+//            return true;
+//        } else if (item.getItemId() == R.id.action_Off) {
+//            option = 0;
+////            new Thread(new Runnable() {
+////                @Override
+////                public void run() {
+////                    try {
+////                        socket_send("f");
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+////                    }
+////                }
+////            }).start();
+//            input = "f";
+//            System.out.println("option Changed into: " + option);
+//            return true;
+//        }
+//        return false;
+//    }
     @Override
     protected void onStop(){
         super.onStop();
