@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getCanonicalName();
     long animationDuration = 0; //1초
 
-    //여기에는 px값으로 저장한다.
+    // 여기에는 px값으로 저장한다.
     float LocationX = 0;
     float LocationY = 0;
     float angle_to_turn = 0;
