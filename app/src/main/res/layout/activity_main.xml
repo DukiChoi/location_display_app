@@ -13,6 +13,7 @@
         android:src="@drawable/ground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="180px"
@@ -118,20 +119,21 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text = "ip 주소:"
-            android:textColor="@color/design_default_color_secondary_variant"
-            />
+            android:text="ip 주소:"
+            android:textColor="@color/design_default_color_secondary_variant" />
+
         <EditText
             android:id="@+id/host_EditText"
-            android:layout_width="150dp"
+            android:layout_width="149dp"
             android:layout_height="50dp"
             android:backgroundTint="@color/design_default_color_secondary_variant"
             tools:layout_editor_absoluteX="137dp"
@@ -147,28 +149,24 @@
     </LinearLayout>
 
 
-
-
-
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/back_ground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text = "좌표:"
-            android:textColor="@color/design_default_color_secondary_variant"
-            />
+            android:text="좌표:"
+            android:textColor="@color/design_default_color_secondary_variant" />
+
         <EditText
             android:id="@+id/X_EditText"
             android:layout_width="70dp"
