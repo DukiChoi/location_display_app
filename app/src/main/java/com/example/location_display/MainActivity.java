@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     EditText x_edit;
     EditText y_edit;
     EditText host_edit;
+    EditText port_number_edit;
     //안드로이드의 dp값은 360dp, 640dp
     //이 폰은 1080px, 1920px이므로 3배수.
     private static Socket socket;
@@ -111,7 +112,10 @@ public class MainActivity extends AppCompatActivity {
         x_edit = (EditText) findViewById(R.id.X_EditText);
         y_edit = (EditText) findViewById(R.id.Y_EditText);
         host_edit = (EditText) findViewById(R.id.host_EditText);
+        port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
+
         host_edit.setText(host);
+        port_number_edit.setText(port);
         x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -329,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
     public void ip_setting(View view){
         //if(!host.equals(host_edit.getText().toString())) {
             host = host_edit.getText().toString();
+            port = Integer.parseInt(port_number_edit.getText().toString());
             System.out.println("Host is changed into : " + host);
 //            try {
 //                instream.close();
