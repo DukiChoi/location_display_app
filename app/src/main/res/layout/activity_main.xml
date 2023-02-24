@@ -118,10 +118,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -148,16 +149,16 @@
             android:text="연결" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
+        android:layout_marginBottom="16dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/back_ground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
