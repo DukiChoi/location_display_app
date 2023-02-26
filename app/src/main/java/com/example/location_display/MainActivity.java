@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
 
         host_edit.setText(host);
-        port_number_edit.setText(port);
+        port_number_edit.setText(String.valueOf(port));
         x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
