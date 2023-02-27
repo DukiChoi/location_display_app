@@ -45,6 +45,7 @@ import java.util.Enumeration;
 public class MainActivity extends AppCompatActivity {
     public static Thread triggerService = null;
     private ImageView imageView;
+    private ImageView imageView2;
     private ImageView background;
     public static final String TAG = MainActivity.class.getCanonicalName();
     long animationDuration = 0; //1초
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     float dp_value = 3;
     EditText x_edit;
     EditText y_edit;
+    EditText x_edit2;
+    EditText y_edit2;
     EditText host_edit;
     EditText port_number_edit;
     //안드로이드의 dp값은 360dp, 640dp
@@ -111,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
         //EditText 리스너인데 작동을 안하네..
         x_edit = (EditText) findViewById(R.id.X_EditText);
         y_edit = (EditText) findViewById(R.id.Y_EditText);
+        x_edit2 = (EditText) findViewById(R.id.X_EditText2);
+        y_edit2 = (EditText) findViewById(R.id.Y_EditText2);
         host_edit = (EditText) findViewById(R.id.host_EditText);
         port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
 
@@ -155,9 +160,11 @@ public class MainActivity extends AppCompatActivity {
 //        x_edit.setOnEditorActionListener(X_Listener);
 //        y_edit.setOnEditorActionListener(Y_Listener);
         imageView = findViewById(R.id.image_view);
+        imageView2 = findViewById(R.id.image_view2);
         background= findViewById(R.id.back_ground);
         //이미지 맨 앞으로
         imageView.bringToFront();
+        imageView2.bringToFront();
         IpThread ipthread = new IpThread();
         ipthread.start();
 
@@ -261,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX + 120;
-        image_move(LocationX, LocationY);
+        image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
         x_edit.setText(String.format("%.3f",temp[0]));
         y_edit.setText(String.format("%.3f",temp[1]));
@@ -271,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
         //120dp 즉 360픽셀 씩 이동
         LocationX = LocationX - 120;
-        image_move(LocationX, LocationY);
+        image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
         x_edit.setText(String.format("%.3f",temp[0]));
         y_edit.setText(String.format("%.3f",temp[1]));
@@ -283,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
         //120dp 즉 360픽셀 씩 이동
         LocationY = LocationY + Math.round(320/3*1000)/1000;
-        image_move(LocationX, LocationY);
+        image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
         x_edit.setText(String.format("%.3f",temp[0]));
         y_edit.setText(String.format("%.3f",temp[1]));
@@ -294,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
         //120dp 즉 360픽셀 씩 이동
         LocationY = LocationY - Math.round(320/3*1000)/1000;
-        image_move(LocationX, LocationY);
+        image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
         x_edit.setText(String.format("%.3f",temp[0]));
         y_edit.setText(String.format("%.3f",temp[1]));
@@ -322,14 +329,33 @@ public class MainActivity extends AppCompatActivity {
         alphaAnimator.start();
     }
 
-    //좌표로 이동
+    //그냥 주어진 좌표로 계속 이동하고 setText를 동시에 해주는 버튼 함수
     public void MoveTo(View view) {
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
         x_edit.setText(String.format("%.3f",temp[0]));
         y_edit.setText(String.format("%.3f",temp[1]));
-        image_move(LocationX, LocationY);
+        image_move(LocationX, LocationY, imageView);
+        //여기선 imageView 즉 car.png를 이동시켜준다.
 
     }
+    //EditText 속 좌표를 받아와서 그 좌표로 이미지를 이동시키는 버튼 함수
+    public void DestinationSet(View view) {
+        float x, y = 0;
+        if(x_edit2.getText().toString().equals("")){
+            x = 0;
+        }else {
+            x = Float.parseFloat(x_edit2.getText().toString());
+        }
+        if(y_edit2.getText().toString().equals("")){
+            y = 0;
+        }else {
+            y = Float.parseFloat(y_edit2.getText().toString());
+        }
+        float[] temp = coordinate_transform_to_dp(x, y);
+        image_move(temp[0], temp[1], imageView2);
+        //여기선 imageView2 즉 destination.png를 이동시켜준다.
+    }
+
     public void ip_setting(View view){
         //if(!host.equals(host_edit.getText().toString())) {
             host = host_edit.getText().toString();
@@ -369,7 +395,34 @@ public class MainActivity extends AppCompatActivity {
         //}
     }
 
-    public void image_move(float PosX, float PosY){
+    public void disconnect(View view){
+        if (instream!=null) {
+            try {
+                instream.close();
+                System.out.println("instream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(outstream!=null) {
+            try {
+                outstream.close();
+                System.out.println("outstream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(socket!=null) {
+            try {
+                socket.close();
+                System.out.println("Socket closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void image_move(float PosX, float PosY, ImageView imageView){
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
                 imageView,
                 "translationX",
@@ -459,7 +512,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 x_edit.setText(String.format("%.3f", xy[0]));
                                 y_edit.setText(String.format("%.3f", xy[1]));
-                                image_move(LocationX, LocationY);
+                                image_move(LocationX, LocationY, imageView);
                             }
                         });
 
@@ -587,14 +640,14 @@ public class MainActivity extends AppCompatActivity {
         return new String[] {str1, str2};
     }
     public static float[] coordinate_transform_to_dp(float x, float y){
-        x = 45*(x+4);
-        y = 40*(-1*y+16);
+        x = 30*(x+6);
+        y = (160/3)*(-1*y+8);
         return new float[] {x, y};
     }
 
     public static float[] coordinate_transform_from_dp(float x, float y){
-        x = x/45-4;
-        y = -1*(y/40 - 16);
+        x = x/30-6;
+        y = -1*(y/(160/3) - 8);
         return new float[] {x, y};
     }
 
