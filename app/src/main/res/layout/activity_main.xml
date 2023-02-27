@@ -145,6 +145,7 @@
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:backgroundTint="#0067a3"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="137dp"
             tools:layout_editor_absoluteY="31dp" />
     </LinearLayout>
@@ -171,6 +172,7 @@
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:backgroundTint="#0067a3"
+            android:textColor="@color/black"
             tools:layout_editor_absoluteX="137dp"
             tools:layout_editor_absoluteY="31dp" />
         <Button
@@ -216,6 +218,7 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:backgroundTint="#0067a3"
+            android:textColor="@color/black"
             android:inputType="numberSigned" />
 
         <EditText
@@ -223,6 +226,7 @@
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:backgroundTint="#0067a3"
+            android:textColor="@color/black"
             android:inputType="numberSigned" />
 
         <Button
@@ -254,6 +258,7 @@
         android:layout_width="65dp"
         android:layout_height="50dp"
         android:backgroundTint="#0067a3"
+        android:textColor="@color/black"
         android:inputType="numberSigned"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="@+id/Y_EditText"
@@ -266,6 +271,7 @@
         android:layout_width="65dp"
         android:layout_height="50dp"
         android:backgroundTint="#0067a3"
+        android:textColor="@color/black"
         android:inputType="numberSigned"
         android:enabled="false"
         app:layout_constraintEnd_toEndOf="@+id/back_ground"
