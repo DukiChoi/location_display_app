@@ -421,16 +421,6 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        }
         option = 0;
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        socket_send("f");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).start();
         input = "f";
         System.out.println("option Changed into: " + option);
     }
