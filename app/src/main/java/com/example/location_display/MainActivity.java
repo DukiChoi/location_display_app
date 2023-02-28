@@ -396,30 +396,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void disconnect(View view){
-        if (instream!=null) {
-            try {
-                instream.close();
-                System.out.println("instream closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(outstream!=null) {
-            try {
-                outstream.close();
-                System.out.println("outstream closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(socket!=null) {
-            try {
-                socket.close();
-                System.out.println("Socket closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (instream!=null) {
+//            try {
+//                instream.close();
+//                System.out.println("instream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(outstream!=null) {
+//            try {
+//                outstream.close();
+//                System.out.println("outstream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(socket!=null) {
+//            try {
+//                socket.close();
+//                System.out.println("Socket closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        option = 0;
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        socket_send("f");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+        input = "f";
+        System.out.println("option Changed into: " + option);
     }
 
     public void image_move(float PosX, float PosY, ImageView imageView){
