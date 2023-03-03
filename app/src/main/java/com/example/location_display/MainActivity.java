@@ -1,10 +1,9 @@
 package com.example.location_display;
 
-import androidx.annotation.ContentView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,35 +11,29 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Enumeration;
-
 
 public class MainActivity extends AppCompatActivity {
     public static Thread triggerService = null;
@@ -70,10 +63,12 @@ public class MainActivity extends AppCompatActivity {
     private static InputStream is;
     String ip;
     String host = "192.168.0.100";
-    int port = 8081;
+    int port = 8080;
     Handler handler = new Handler();
     int option = -1;
     String input = ".";
+
+
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
 //        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
@@ -100,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //디스플레이 크기 구하는 부분
         Display display = getWindowManager().getDefaultDisplay();  // in Activity
@@ -156,6 +152,31 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Y is " + String.valueOf(LocationY));
             }
         });
+        //스피너 정의 부분
+        // Spinner
+        final String[] ip_list = {host, "12341234"};
+//        ArrayAdapter<CharSequence> ipadapter = ArrayAdapter.createFromResource(this, R.array.ip_array, android.R.layout.simple_spinner_item );
+        ArrayAdapter<String> ipadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ip_list);
+        Spinner ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
+        ipadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ipSpinner.setAdapter(ipadapter);
+        ipSpinner.setPrompt("연결할 ip를 선택해주세요");
+        ipSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(getApplicationContext(), "Selected ip: " + ip_list[position], Toast.LENGTH_SHORT).show();
+//                parent.getItemIdAtPosition(position);
+//                ipSpinner.setSelection(position);
+                ((TextView)parent.getChildAt(0)).setTextColor(Color.BLACK);
+                host_edit.setText(ip_list[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 //        x_edit.setOnEditorActionListener(X_Listener);
 //        y_edit.setOnEditorActionListener(Y_Listener);
@@ -353,6 +374,7 @@ public class MainActivity extends AppCompatActivity {
         }
         float[] temp = coordinate_transform_to_dp(x, y);
         image_move(temp[0], temp[1], imageView2);
+        Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + y, Toast.LENGTH_SHORT).show();
         //여기선 imageView2 즉 destination.png를 이동시켜준다.
     }
 
@@ -360,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
         //if(!host.equals(host_edit.getText().toString())) {
             host = host_edit.getText().toString();
             port = Integer.parseInt(port_number_edit.getText().toString());
+            Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
             System.out.println("Host is changed into : " + host);
 //            try {
 //                instream.close();
@@ -423,6 +446,7 @@ public class MainActivity extends AppCompatActivity {
         option = 0;
         input = "f";
         System.out.println("option Changed into: " + option);
+        Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
     }
 
     public void image_move(float PosX, float PosY, ImageView imageView){
