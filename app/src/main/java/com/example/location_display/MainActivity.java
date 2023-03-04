@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     EditText y_edit2;
     EditText host_edit;
     EditText port_number_edit;
+    Button connnect_btn;
     //안드로이드의 dp값은 360dp, 640dp
     //이 폰은 1080px, 1920px이므로 3배수.
     private static Socket socket;
@@ -62,13 +65,13 @@ public class MainActivity extends AppCompatActivity {
     private static ObjectInputStream instream;
     private static InputStream is;
     String ip;
-    String host = "192.168.0.100";
+    String host = "192.168.0.9";
     int port = 8080;
     Handler handler = new Handler();
     int option = -1;
     String input = ".";
-
-
+    Drawable drawable_background_green;
+    Drawable getDrawable_background_blue;
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
 //        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
@@ -114,7 +117,9 @@ public class MainActivity extends AppCompatActivity {
         y_edit2 = (EditText) findViewById(R.id.Y_EditText2);
         host_edit = (EditText) findViewById(R.id.host_EditText);
         port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
-
+        connnect_btn = (Button) findViewById(R.id.connect_btn);
+        drawable_background_green = getResources().getDrawable(R.drawable.btn_green);
+        getDrawable_background_blue = getResources().getDrawable(R.drawable.btn_blue);
         host_edit.setText(host);
         port_number_edit.setText(String.valueOf(port));
         x_edit.addTextChangedListener(new TextWatcher() {
@@ -378,12 +383,13 @@ public class MainActivity extends AppCompatActivity {
         //여기선 imageView2 즉 destination.png를 이동시켜준다.
     }
 
-    public void ip_setting(View view){
+    public void connect(View view){
         //if(!host.equals(host_edit.getText().toString())) {
             host = host_edit.getText().toString();
             port = Integer.parseInt(port_number_edit.getText().toString());
             Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
             System.out.println("Host is changed into : " + host);
+            connnect_btn.setBackgroundDrawable(drawable_background_green);
 //            try {
 //                instream.close();
 //            } catch (IOException e) {
@@ -419,30 +425,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void disconnect(View view){
-//        if (instream!=null) {
-//            try {
-//                instream.close();
-//                System.out.println("instream closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(outstream!=null) {
-//            try {
-//                outstream.close();
-//                System.out.println("outstream closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(socket!=null) {
-//            try {
-//                socket.close();
-//                System.out.println("Socket closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        connnect_btn.setBackgroundDrawable(getDrawable_background_blue);
+        if (instream!=null) {
+            try {
+                instream.close();
+                System.out.println("instream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(outstream!=null) {
+            try {
+                outstream.close();
+                System.out.println("outstream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(socket!=null) {
+            try {
+                socket.close();
+                System.out.println("Socket closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         option = 0;
         input = "f";
         System.out.println("option Changed into: " + option);

@@ -184,16 +184,16 @@
             android:textColor="@color/black"
             android:inputType="numberSigned"/>
         <Button
-            android:id="@+id/_btn"
+            android:id="@+id/connect_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="100dp"
             android:layout_height="40dp"
-            android:onClick="ip_setting"
+            android:onClick="connect"
             android:background="@drawable/btn_blue"
             android:text="Connect" />
 
         <Button
-            android:id="@+id/_btn2"
+            android:id="@+id/disconnect_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="100dp"
             android:layout_height="40dp"
