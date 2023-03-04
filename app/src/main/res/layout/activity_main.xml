@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--    android:layout_width="180px"-->
+<!--    android:layout_height="160px"-->
+<!--    android:layout_marginStart="-90px"-->
+<!--    android:layout_marginTop="-80px"-->
+
     <ImageView
         android:id="@+id/back_ground"
         android:layout_width="1080px"
@@ -14,10 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    android:layout_width="180px"-->
-<!--    android:layout_height="160px"-->
-<!--    android:layout_marginStart="-90px"-->
-<!--    android:layout_marginTop="-80px"-->
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="100px"
@@ -192,7 +193,7 @@
         <Button
             android:id="@+id/connect_btn"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:onClick="connect"
             android:background="@drawable/btn_blue"
@@ -201,7 +202,7 @@
         <Button
             android:id="@+id/disconnect_btn"
             style="@style/Widget.AppCompat.Button"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:onClick="disconnect"
             android:background="@drawable/btn_blue"
@@ -229,7 +230,7 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/X_EditText2"
+            android:id="@+id/Dest_X_EditText1"
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:textSize="18sp"
@@ -238,7 +239,7 @@
             android:inputType="numberSigned" />
 
         <EditText
-            android:id="@+id/Y_EditText2"
+            android:id="@+id/Dest_Y_EditText1"
             android:layout_width="70dp"
             android:layout_height="50dp"
             android:textSize="18sp"
@@ -248,7 +249,7 @@
 
         <Button
             android:id="@+id/enter_btn"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_blue"
@@ -260,38 +261,81 @@
         android:id="@+id/textView4"
         android:layout_width="54dp"
         android:layout_height="23dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="4dp"
-        android:text="x,y(m):"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="28dp"
+        android:text="Target:"
         android:textColor="#0067a3"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/X_EditText"
-        app:layout_constraintEnd_toStartOf="@+id/X_EditText"
-        app:layout_constraintTop_toTopOf="@+id/back_ground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/back_ground" />
+
+    <EditText
+        android:id="@+id/Target_X_EditText"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="#0067a3"
+        android:enabled="false"
+        android:inputType="numberSigned"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
         app:layout_constraintVertical_bias="1.0" />
 
     <EditText
-        android:id="@+id/X_EditText"
+        android:id="@+id/Target_Y_EditText"
         android:layout_width="65dp"
         android:layout_height="50dp"
         android:backgroundTint="#0067a3"
-        android:textColor="@color/black"
-        android:inputType="numberSigned"
         android:enabled="false"
-        app:layout_constraintBottom_toBottomOf="@+id/Y_EditText"
-        app:layout_constraintEnd_toStartOf="@+id/Y_EditText"
-        app:layout_constraintTop_toTopOf="@+id/Y_EditText"
+        android:inputType="numberSigned"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/Target_X_EditText"
+        app:layout_constraintStart_toEndOf="@+id/Target_X_EditText"
+        app:layout_constraintTop_toTopOf="@+id/Target_X_EditText"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="80dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="20dp"
+        android:text="Destination:"
+        android:textColor="#0067a3"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
     <EditText
-        android:id="@+id/Y_EditText"
+        android:id="@+id/Dest_X_EditText2"
+        android:layout_width="65dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:backgroundTint="#0067a3"
+        android:enabled="false"
+        android:inputType="numberSigned"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/Dest_Y_EditText2"
         android:layout_width="65dp"
         android:layout_height="50dp"
         android:backgroundTint="#0067a3"
-        android:textColor="@color/black"
-        android:inputType="numberSigned"
         android:enabled="false"
-        app:layout_constraintEnd_toEndOf="@+id/back_ground"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="numberSigned"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/Dest_X_EditText2"
+        app:layout_constraintEnd_toEndOf="@+id/Target_Y_EditText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/Dest_X_EditText2"
+        app:layout_constraintTop_toTopOf="@+id/Dest_X_EditText2"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

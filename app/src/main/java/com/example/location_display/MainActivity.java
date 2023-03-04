@@ -71,10 +71,12 @@ public class MainActivity extends AppCompatActivity {
     float angle_to_turn = 0;
     float last_angle = 0;
     float dp_value = 3;
-    EditText x_edit;
-    EditText y_edit;
-    EditText x_edit2;
-    EditText y_edit2;
+    EditText target_x_edit;
+    EditText target_y_edit;
+    EditText dest_x_edit;
+    EditText dest_y_edit;
+    EditText dest_x_edit2;
+    EditText dest_y_edit2;
     TextView host_edit;
     EditText port_number_edit;
     Button connnect_btn;
@@ -142,10 +144,12 @@ public class MainActivity extends AppCompatActivity {
         Log.e(TAG, "height is: " + height);
         Log.d("My Ip Address is ", getLocalIpAddress());
         //EditText 리스너인데 작동을 안하네..
-        x_edit = (EditText) findViewById(R.id.X_EditText);
-        y_edit = (EditText) findViewById(R.id.Y_EditText);
-        x_edit2 = (EditText) findViewById(R.id.X_EditText2);
-        y_edit2 = (EditText) findViewById(R.id.Y_EditText2);
+        target_x_edit = (EditText) findViewById(R.id.Target_X_EditText);
+        target_y_edit = (EditText) findViewById(R.id.Target_Y_EditText);
+        dest_x_edit = (EditText) findViewById(R.id.Dest_X_EditText1);
+        dest_y_edit = (EditText) findViewById(R.id.Dest_Y_EditText1);
+        dest_x_edit2 = (EditText) findViewById(R.id.Dest_X_EditText2);
+        dest_y_edit2 = (EditText) findViewById(R.id.Dest_Y_EditText2);
         host_edit = (TextView) findViewById(R.id.host_TextView);
         port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
         connnect_btn = (Button) findViewById(R.id.connect_btn);
@@ -158,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
         port_number_edit.setText(preferences.getString("port_number",""));
 //        ip_list.add(host);
         ip_list = getStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON);
-        x_edit.addTextChangedListener(new TextWatcher() {
+
+        target_x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -175,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "X is " + String.valueOf(LocationX));
             }
         });
-        y_edit.addTextChangedListener(new TextWatcher() {
+        target_y_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -280,8 +285,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        x_edit.setOnEditorActionListener(X_Listener);
-//        y_edit.setOnEditorActionListener(Y_Listener);
+//        target_x_edit.setOnEditorActionListener(X_Listener);
+//        target_y_edit.setOnEditorActionListener(Y_Listener);
         imageView = findViewById(R.id.image_view);
         imageView2 = findViewById(R.id.image_view2);
         background= findViewById(R.id.back_ground);
@@ -392,8 +397,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX + 120;
         image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f",temp[0]));
-        y_edit.setText(String.format("%.3f",temp[1]));
+        target_x_edit.setText(String.format("%.3f",temp[0]));
+        target_y_edit.setText(String.format("%.3f",temp[1]));
     }
     //가로방향
     public void ToTheLeft(View view) {
@@ -402,8 +407,8 @@ public class MainActivity extends AppCompatActivity {
         LocationX = LocationX - 120;
         image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f",temp[0]));
-        y_edit.setText(String.format("%.3f",temp[1]));
+        target_x_edit.setText(String.format("%.3f",temp[0]));
+        target_y_edit.setText(String.format("%.3f",temp[1]));
     }
 
     //세로방향
@@ -414,8 +419,8 @@ public class MainActivity extends AppCompatActivity {
         LocationY = LocationY + Math.round(320/3*1000)/1000;
         image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f",temp[0]));
-        y_edit.setText(String.format("%.3f",temp[1]));
+        target_x_edit.setText(String.format("%.3f",temp[0]));
+        target_y_edit.setText(String.format("%.3f",temp[1]));
     }
     //세로방향
     public void GoUp(View view) {
@@ -425,8 +430,8 @@ public class MainActivity extends AppCompatActivity {
         LocationY = LocationY - Math.round(320/3*1000)/1000;
         image_move(LocationX, LocationY, imageView);
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f",temp[0]));
-        y_edit.setText(String.format("%.3f",temp[1]));
+        target_x_edit.setText(String.format("%.3f",temp[0]));
+        target_y_edit.setText(String.format("%.3f",temp[1]));
     }
 
     //회전
@@ -454,8 +459,8 @@ public class MainActivity extends AppCompatActivity {
     //그냥 주어진 좌표로 계속 이동하고 setText를 동시에 해주는 버튼 함수
     public void MoveTo(View view) {
         float[] temp = coordinate_transform_from_dp(LocationX, LocationY);
-        x_edit.setText(String.format("%.3f",temp[0]));
-        y_edit.setText(String.format("%.3f",temp[1]));
+        target_x_edit.setText(String.format("%.3f",temp[0]));
+        target_y_edit.setText(String.format("%.3f",temp[1]));
         image_move(LocationX, LocationY, imageView);
         //여기선 imageView 즉 car.png를 이동시켜준다.
 
@@ -464,19 +469,21 @@ public class MainActivity extends AppCompatActivity {
     public void DestinationSet(View view) {
         enter_btn.setBackgroundDrawable(drawable_background_skyblue);
         float x, y = 0;
-        if(x_edit2.getText().toString().equals("")){
+        if(dest_x_edit.getText().toString().equals("")){
             x = 0;
         }else {
-            x = Float.parseFloat(x_edit2.getText().toString());
+            x = Float.parseFloat(dest_x_edit.getText().toString());
+            dest_x_edit2.setText(dest_x_edit.getText().toString()+" m");
         }
-        if(y_edit2.getText().toString().equals("")){
+        if(dest_y_edit.getText().toString().equals("")){
             y = 0;
         }else {
-            y = Float.parseFloat(y_edit2.getText().toString());
+            y = Float.parseFloat(dest_y_edit.getText().toString());
+            dest_y_edit2.setText(dest_y_edit.getText().toString()+" m");
         }
         float[] temp = coordinate_transform_to_dp(x, y);
         image_move(temp[0], temp[1], imageView2);
-        Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + y, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "X: " + x + " m" + "\nY: " + y + " m", Toast.LENGTH_SHORT).show();
         //여기선 imageView2 즉 destination.png를 이동시켜준다.
     }
 
@@ -646,8 +653,8 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                x_edit.setText(String.format("%.3f", xy[0]));
-                                y_edit.setText(String.format("%.3f", xy[1]));
+                                target_x_edit.setText(String.format("%.3f", xy[0]) + " m");
+                                target_y_edit.setText(String.format("%.3f", xy[1]) + " m");
                                 image_move(LocationX, LocationY, imageView);
                             }
                         });
