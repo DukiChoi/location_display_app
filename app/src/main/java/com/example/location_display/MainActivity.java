@@ -1,13 +1,22 @@
 package com.example.location_display;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.TypedArrayUtils;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGattServer;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +33,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -34,17 +46,25 @@ import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 
+
 public class MainActivity extends AppCompatActivity {
+
+
+    //설정 저장하는 변수 ( ip, port )
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
+    private static final String SETTINGS_PLAYER_JSON = "settings_item_json";
+
     public static Thread triggerService = null;
     private ImageView imageView;
     private ImageView imageView2;
     private ImageView background;
     public static final String TAG = MainActivity.class.getCanonicalName();
     long animationDuration = 0; //1초
-
     // 여기에는 px값으로 저장한다.
     float LocationX = 0;
     float LocationY = 0;
@@ -55,9 +75,11 @@ public class MainActivity extends AppCompatActivity {
     EditText y_edit;
     EditText x_edit2;
     EditText y_edit2;
-    EditText host_edit;
+    TextView host_edit;
     EditText port_number_edit;
     Button connnect_btn;
+    Button disconnnect_btn;
+    Button enter_btn;
     //안드로이드의 dp값은 360dp, 640dp
     //이 폰은 1080px, 1920px이므로 3배수.
     private static Socket socket;
@@ -65,13 +87,17 @@ public class MainActivity extends AppCompatActivity {
     private static ObjectInputStream instream;
     private static InputStream is;
     String ip;
-    String host = "192.168.0.9";
-    int port = 8080;
+    ArrayList<String> ip_list = new ArrayList<String>();
     Handler handler = new Handler();
     int option = -1;
     String input = ".";
     Drawable drawable_background_green;
-    Drawable getDrawable_background_blue;
+    Drawable drawable_background_blue;
+    Drawable drawable_background_red;
+    Drawable drawable_background_skyblue;
+    private BluetoothAdapter mBluetoothAdapter;
+    ArrayAdapter<String> ipadapter;
+    Spinner ipSpinner;
 //    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
 //        @Override
 //        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
@@ -99,6 +125,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //설정 저장하는 부분
+        //기본 SharedPreferences 환경과 관련된 객체를 얻어옵니다.
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // SharedPreferences 수정을 위한 Editor 객체를 얻어옵니다.
+        editor = preferences.edit();
 
         //디스플레이 크기 구하는 부분
         Display display = getWindowManager().getDefaultDisplay();  // in Activity
@@ -115,13 +146,18 @@ public class MainActivity extends AppCompatActivity {
         y_edit = (EditText) findViewById(R.id.Y_EditText);
         x_edit2 = (EditText) findViewById(R.id.X_EditText2);
         y_edit2 = (EditText) findViewById(R.id.Y_EditText2);
-        host_edit = (EditText) findViewById(R.id.host_EditText);
+        host_edit = (TextView) findViewById(R.id.host_TextView);
         port_number_edit = (EditText) findViewById(R.id.port_number_EditText);
         connnect_btn = (Button) findViewById(R.id.connect_btn);
+        disconnnect_btn = (Button) findViewById(R.id.disconnect_btn);
+        enter_btn = (Button) findViewById(R.id.enter_btn);
         drawable_background_green = getResources().getDrawable(R.drawable.btn_green);
-        getDrawable_background_blue = getResources().getDrawable(R.drawable.btn_blue);
-        host_edit.setText(host);
-        port_number_edit.setText(String.valueOf(port));
+        drawable_background_blue = getResources().getDrawable(R.drawable.btn_blue);
+        drawable_background_red = getResources().getDrawable(R.drawable.btn_red);
+        drawable_background_skyblue = getResources().getDrawable(R.drawable.btn_skyblue);
+        port_number_edit.setText(preferences.getString("port_number",""));
+//        ip_list.add(host);
+        ip_list = getStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON);
         x_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -157,12 +193,71 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Y is " + String.valueOf(LocationY));
             }
         });
+
+
+        host_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText et = new EditText(MainActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("ip 세팅");
+
+                builder.setIcon(R.drawable.black_gear).setView(et);
+                builder.setMessage("추가할 ip를 입력해주세요");
+
+                builder.setNegativeButton("추가",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                if(!et.getText().toString().equals("")) {
+                                    String newdata = et.getText().toString();
+
+                                    //EditText 변경
+                                    host_edit.setText(newdata);
+                                    //스피너에 추가
+                                    ipadapter.add(newdata);
+                                    ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
+                                    ipSpinner.setAdapter(ipadapter);
+                                    //설정데이터 저장
+                                    setStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON, ip_list);
+                                    //여기서 adapter.add 할 떄 알 수 없는 오류가 난 적이 있었는데 String[] (Array)형식 대신에 ArrayList<String> 형식으로 대신해주니 오류가 해결됨.
+                                }
+                            }
+                        });
+                builder.setNeutralButton("삭제",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String data_to_remove = host_edit.getText().toString();
+                                //설정데이터 삭제
+                                editor.remove("text");
+                                editor.commit();
+                                //EditText 변경
+                                host_edit.setText("");
+                                //스피너에서 삭제
+                                ipadapter.remove(data_to_remove);
+                                //설정데이터 저장
+                                setStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON, ip_list);
+                            }
+                        });
+                builder.setPositiveButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        });
+
+
+                builder.show();
+            }
+
+        });
+
         //스피너 정의 부분
         // Spinner
-        final String[] ip_list = {host, "12341234"};
+
 //        ArrayAdapter<CharSequence> ipadapter = ArrayAdapter.createFromResource(this, R.array.ip_array, android.R.layout.simple_spinner_item );
-        ArrayAdapter<String> ipadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ip_list);
-        Spinner ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
+        ipadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ip_list);
+        ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
         ipadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ipSpinner.setAdapter(ipadapter);
         ipSpinner.setPrompt("연결할 ip를 선택해주세요");
@@ -170,10 +265,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplicationContext(), "Selected ip: " + ip_list[position], Toast.LENGTH_SHORT).show();
-//                parent.getItemIdAtPosition(position);
-//                ipSpinner.setSelection(position);
+                parent.getItemIdAtPosition(position);
+                ipSpinner.setSelection(position);
                 ((TextView)parent.getChildAt(0)).setTextColor(Color.BLACK);
-                host_edit.setText(ip_list[position]);
+                host_edit.setText(ip_list.get(position));
             }
 
             @Override
@@ -273,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -366,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
     }
     //EditText 속 좌표를 받아와서 그 좌표로 이미지를 이동시키는 버튼 함수
     public void DestinationSet(View view) {
+        enter_btn.setBackgroundDrawable(drawable_background_skyblue);
         float x, y = 0;
         if(x_edit2.getText().toString().equals("")){
             x = 0;
@@ -385,11 +480,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void connect(View view){
         //if(!host.equals(host_edit.getText().toString())) {
-            host = host_edit.getText().toString();
-            port = Integer.parseInt(port_number_edit.getText().toString());
+            String host = host_edit.getText().toString();
+            editor.putString("port_number", port_number_edit.getText().toString());
+            editor.apply();
             Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
             System.out.println("Host is changed into : " + host);
             connnect_btn.setBackgroundDrawable(drawable_background_green);
+            disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
 //            try {
 //                instream.close();
 //            } catch (IOException e) {
@@ -425,8 +522,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void disconnect(View view){
-        connnect_btn.setBackgroundDrawable(getDrawable_background_blue);
-        if (instream!=null) {
+        connnect_btn.setBackgroundDrawable(drawable_background_blue);
+        disconnnect_btn.setBackgroundDrawable(drawable_background_red);
+        if (is!=null) {
             try {
                 instream.close();
                 System.out.println("instream closed");
@@ -502,7 +600,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private class IpThread extends Thread {
-        private static final String TAG = "ExampleThread";
 
         public IpThread() {
             // 초기화 작업
@@ -561,7 +658,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void socket_open() throws IOException {
-        socket = new Socket(host, port);
+        socket = new Socket(host_edit.getText().toString(), Integer.parseInt(port_number_edit.getText().toString()));
         is = socket.getInputStream();
         outstream = new ObjectOutputStream(socket.getOutputStream());
         //서버로 데이터 주기
@@ -685,4 +782,38 @@ public class MainActivity extends AppCompatActivity {
         return new float[] {x, y};
     }
 
+
+
+    private void setStringArrayPref(Context context, String key, ArrayList<String> values) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        JSONArray a = new JSONArray();
+        for (int i = 0; i < values.size(); i++) {
+            a.put(values.get(i));
+        }
+        if (!values.isEmpty()) {
+            editor.putString(key, a.toString());
+        } else {
+            editor.putString(key, null);
+        }
+        editor.apply();
+    }
+
+    private ArrayList<String> getStringArrayPref(Context context, String key) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String json = prefs.getString(key, null);
+        ArrayList<String> urls = new ArrayList<String>();
+        if (json != null) {
+            try {
+                JSONArray a = new JSONArray(json);
+                for (int i = 0; i < a.length(); i++) {
+                    String url = a.optString(i);
+                    urls.add(url);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return urls;
+    }
 }
