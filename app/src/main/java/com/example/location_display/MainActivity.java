@@ -211,12 +211,14 @@ public class MainActivity extends AppCompatActivity {
                                 if(!et.getText().toString().equals("")) {
                                     String newdata = et.getText().toString();
 
-                                    //EditText 변경
-                                    host_edit.setText(newdata);
+
+                                    System.out.println("ip addresss added: " + newdata);
                                     //스피너에 추가
                                     ipadapter.add(newdata);
                                     ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
                                     ipSpinner.setAdapter(ipadapter);
+                                    //스피너 칸 새로 추가한 것으로 변경
+                                    ipSpinner.setSelection(ip_list.size()-1);
                                     //설정데이터 저장
                                     setStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON, ip_list);
                                     //여기서 adapter.add 할 떄 알 수 없는 오류가 난 적이 있었는데 String[] (Array)형식 대신에 ArrayList<String> 형식으로 대신해주니 오류가 해결됨.
@@ -228,13 +230,13 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
 
                                 String data_to_remove = host_edit.getText().toString();
-                                //설정데이터 삭제
-                                editor.remove("text");
-                                editor.commit();
                                 //EditText 변경
                                 host_edit.setText("");
                                 //스피너에서 삭제
                                 ipadapter.remove(data_to_remove);
+                                ipSpinner = (Spinner)findViewById(R.id.spinner_ip);
+                                ipSpinner.setAdapter(ipadapter);
+                                ipSpinner.setSelection(0);
                                 //설정데이터 저장
                                 setStringArrayPref(MainActivity.this, SETTINGS_PLAYER_JSON, ip_list);
                             }
@@ -265,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplicationContext(), "Selected ip: " + ip_list[position], Toast.LENGTH_SHORT).show();
-                parent.getItemIdAtPosition(position);
+//                parent.getItemIdAtPosition(position);
                 ipSpinner.setSelection(position);
                 ((TextView)parent.getChildAt(0)).setTextColor(Color.BLACK);
                 host_edit.setText(ip_list.get(position));
@@ -479,8 +481,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void connect(View view){
-        //if(!host.equals(host_edit.getText().toString())) {
+        if(!host_edit.getText().toString().equals("") && !port_number_edit.getText().toString().equals("")) {
             String host = host_edit.getText().toString();
+            //포트넘버 저장
             editor.putString("port_number", port_number_edit.getText().toString());
             editor.apply();
             Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
@@ -517,8 +520,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }).start();
-
-        //}
+        }
+        else{
+            Toast.makeText(getApplicationContext(), "Ip와 Port를 입력해주세요", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void disconnect(View view){

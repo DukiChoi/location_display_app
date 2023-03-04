@@ -139,10 +139,10 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="IP Address:"
-            android:textSize="18sp"
             android:textColor="#0067a3"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -151,14 +151,12 @@
             android:layout_height="50dp"
             android:textSize="18sp"
             android:backgroundTint="#0067a3"
-            android:textColor="@color/black"
-            tools:layout_editor_absoluteX="137dp"
-            tools:layout_editor_absoluteY="31dp" />
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/spinner_ip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:background="@android:drawable/btn_dropdown"
             android:dropDownWidth="wrap_content"
             android:popupBackground="#787A83"
@@ -177,7 +175,7 @@
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Port Number:"
             android:textSize="18sp"
             android:textColor="#0067a3"
@@ -195,7 +193,7 @@
             android:id="@+id/connect_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:onClick="connect"
             android:background="@drawable/btn_blue"
             android:text="Connect" />
@@ -204,7 +202,7 @@
             android:id="@+id/disconnect_btn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:onClick="disconnect"
             android:background="@drawable/btn_blue"
             android:text="DisConn" />
@@ -224,7 +222,7 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Destination(m):"
             android:textColor="#0067a3"
             android:textSize="18sp"
@@ -251,7 +249,7 @@
         <Button
             android:id="@+id/enter_btn"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_blue"
             android:onClick="DestinationSet"
