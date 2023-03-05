@@ -282,6 +282,9 @@ public class MainActivity extends AppCompatActivity {
         //이미지 맨 앞으로
         imageView.bringToFront();
         imageView2.bringToFront();
+        //초기에 0,0으로 이동해주기
+        image_move(160, 400, imageView);
+        image_move(160, 400, imageView2);
         IpThread ipthread = new IpThread();
         ipthread.start();
 
