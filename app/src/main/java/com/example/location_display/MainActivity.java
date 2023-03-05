@@ -800,14 +800,14 @@ public class MainActivity extends AppCompatActivity {
         return new String[] {str1, str2};
     }
     public static float[] coordinate_transform_to_dp(float x, float y){
-        x = 30*(x+6);
-        y = (160/3)*(-1*y+8);
+        x = 40*(x+4);
+        y = (40)*(-1*y+10);
         return new float[] {x, y};
     }
 
     public static float[] coordinate_transform_from_dp(float x, float y){
-        x = x/30-6;
-        y = -1*(y/(160/3) - 8);
+        x = x/40-4;
+        y = -1*(y/40 - 10);
         return new float[] {x, y};
     }
 

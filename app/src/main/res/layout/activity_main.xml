@@ -143,15 +143,17 @@
             android:layout_height="wrap_content"
             android:text="IP Address:"
             android:textColor="#0067a3"
+            android:background="#99FFFFFF"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/host_TextView"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:textSize="18sp"
-            android:backgroundTint="#0067a3"
+            android:textStyle="bold"
+            android:background="@drawable/spinner_background"
             android:textColor="@color/black"/>
 
         <Spinner
@@ -177,6 +179,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:background="#99FFFFFF"
             android:text="Port Number:"
             android:textSize="18sp"
             android:textColor="#0067a3"
@@ -185,10 +188,11 @@
         <EditText
             android:id="@+id/port_number_EditText"
             android:layout_width="100dp"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
             android:textSize="18sp"
-            android:backgroundTint="#0067a3"
             android:textColor="@color/black"
+            android:textStyle="bold"
+            android:background="@drawable/spinner_background"
             android:inputType="numberSigned"/>
         <Button
             android:id="@+id/connect_btn"
@@ -223,7 +227,8 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:background="#99FFFFFF"
             android:text="Destination(m):"
             android:textColor="#0067a3"
             android:textSize="18sp"
@@ -232,20 +237,22 @@
         <EditText
             android:id="@+id/Dest_X_EditText1"
             android:layout_width="70dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:textSize="18sp"
-            android:backgroundTint="#0067a3"
             android:textColor="@color/black"
+            android:background="#99FFFFFF"
+            android:textStyle="bold"
             android:inputType="numberDecimal" />
 
         <EditText
             android:id="@+id/Dest_Y_EditText1"
             android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:textSize="18sp"
-            android:backgroundTint="#0067a3"
+            android:layout_height="40dp"
+            android:inputType="numberDecimal"
             android:textColor="@color/black"
-            android:inputType="numberDecimal" />
+            android:textSize="18sp"
+            android:background="#99FFFFFF"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/enter_btn"
@@ -264,6 +271,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="28dp"
         android:text="Target:"
+        android:background="#90FFFFFF"
         android:textColor="#0067a3"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -274,7 +282,7 @@
         android:layout_width="85dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:backgroundTint="#0067a3"
+        android:background="#90FFFFFF"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="@color/black"
@@ -287,7 +295,7 @@
         android:id="@+id/Target_Y_EditText"
         android:layout_width="85dp"
         android:layout_height="50dp"
-        android:backgroundTint="#0067a3"
+        android:background="#90FFFFFF"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="@color/black"
@@ -301,6 +309,7 @@
         android:layout_width="80dp"
         android:layout_height="23dp"
         android:layout_marginTop="20dp"
+        android:background="#90FFFFFF"
         android:text="Destination:"
         android:textColor="#0067a3"
         android:textStyle="bold"
@@ -314,7 +323,7 @@
         android:layout_width="85dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:backgroundTint="#0067a3"
+        android:background="#90FFFFFF"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="#ff0000"
@@ -327,7 +336,7 @@
         android:id="@+id/Dest_Y_EditText2"
         android:layout_width="85dp"
         android:layout_height="50dp"
-        android:backgroundTint="#0067a3"
+        android:background="#90FFFFFF"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="#ff0000"
