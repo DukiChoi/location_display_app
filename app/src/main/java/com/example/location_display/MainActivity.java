@@ -16,9 +16,13 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.preference.PreferenceManager;
+import android.system.ErrnoException;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -100,26 +104,6 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     ArrayAdapter<String> ipadapter;
     Spinner ipSpinner;
-//    private final TextView.OnEditorActionListener X_Listener = new TextView.OnEditorActionListener() {
-//        @Override
-//        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                LocationX = Float.parseFloat(editText.getText().toString());
-//            }
-//
-//            return false;
-//        }
-//    };
-//    private final TextView.OnEditorActionListener Y_Listener = new TextView.OnEditorActionListener() {
-//        @Override
-//        public boolean onEditorAction(TextView editText, int actionId, KeyEvent event) {
-//            if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                LocationY = Float.parseFloat(editText.getText().toString());
-//
-//            }
-//            return false;
-//        }
-//    };
 
 
     @Override
@@ -172,12 +156,14 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                try {
-                    LocationX = coordinate_transform_to_dp(Float.parseFloat(s.toString()), 0)[0];
-                } catch(NumberFormatException e) {
-                    // Not float
-                }
-                Log.e(TAG, "X is " + String.valueOf(LocationX));
+                //원래 여기서 Target EditText값이 변화하면 받아와서 float형식으로 바꾼다음 좌표변환해줬었는데
+                //값에 m단위 표시가 들어가면서 float변환이 불가능해져서 지금은 그냥 connect함수에서 값 받자마자 변환해서 LocationX에 넣어준다.
+//                try {
+//                    LocationX = coordinate_transform_to_dp(Float.parseFloat(s.toString()), 0)[0];
+//                } catch(NumberFormatException e) {
+//                    // Not float
+//                }
+                Log.e(TAG, "X is " + s.toString());
             }
         });
         target_y_edit.addTextChangedListener(new TextWatcher() {
@@ -190,12 +176,12 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void afterTextChanged(Editable s) {
-                try {
-                    LocationY = coordinate_transform_to_dp(0, Float.parseFloat(s.toString()))[1];
-                } catch(NumberFormatException e) {
-                    // Not float
-                }
-                Log.e(TAG, "Y is " + String.valueOf(LocationY));
+//                try {
+//                    LocationY = coordinate_transform_to_dp(0, Float.parseFloat(s.toString()))[1];
+//                } catch(NumberFormatException e) {
+//                    // Not float
+//                }
+                Log.e(TAG, "Y is " + s.toString());
             }
         });
 
@@ -204,6 +190,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final EditText et = new EditText(MainActivity.this);
+                //EditText의 Inputtype을 Number로 해줌
+                et.setInputType(20);
+                //et.setKeyListener(new DigitsKeyListener().getInstance(false,true));
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("ip 세팅");
 
@@ -471,12 +460,16 @@ public class MainActivity extends AppCompatActivity {
         float x, y = 0;
         if(dest_x_edit.getText().toString().equals("")){
             x = 0;
+            dest_x_edit.setText("0");
+            dest_x_edit2.setText("0 m");
         }else {
             x = Float.parseFloat(dest_x_edit.getText().toString());
             dest_x_edit2.setText(dest_x_edit.getText().toString()+" m");
         }
         if(dest_y_edit.getText().toString().equals("")){
             y = 0;
+            dest_y_edit.setText("0");
+            dest_y_edit2.setText("0 m");
         }else {
             y = Float.parseFloat(dest_y_edit.getText().toString());
             dest_y_edit2.setText(dest_y_edit.getText().toString()+" m");
@@ -489,6 +482,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void connect(View view){
         if(!host_edit.getText().toString().equals("") && !port_number_edit.getText().toString().equals("")) {
+            input = ".";
+            option = -1;
             String host = host_edit.getText().toString();
             //포트넘버 저장
             editor.putString("port_number", port_number_edit.getText().toString());
@@ -498,7 +493,7 @@ public class MainActivity extends AppCompatActivity {
             connnect_btn.setBackgroundDrawable(drawable_background_green);
             disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
 //            try {
-//                instream.close();
+//                is.close();
 //            } catch (IOException e) {
 //                e.printStackTrace();
 //            }
@@ -523,7 +518,16 @@ public class MainActivity extends AppCompatActivity {
                         clientThread.start();
 
                     } catch (Exception e) {
+                        Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run(){
+                                Toast.makeText(getApplicationContext(), "서버가 열려있는지 확인해주세요", Toast.LENGTH_SHORT).show();
+                            }
+                        }, 0);
+                        connnect_btn.setBackgroundDrawable(drawable_background_blue);
                         e.printStackTrace();
+
                     }
                 }
             }).start();
@@ -536,35 +540,35 @@ public class MainActivity extends AppCompatActivity {
     public void disconnect(View view){
         connnect_btn.setBackgroundDrawable(drawable_background_blue);
         disconnnect_btn.setBackgroundDrawable(drawable_background_red);
-        if (is!=null) {
-            try {
-                instream.close();
-                System.out.println("instream closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(outstream!=null) {
-            try {
-                outstream.close();
-                System.out.println("outstream closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(socket!=null) {
-            try {
-                socket.close();
-                System.out.println("Socket closed");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (is!=null) {
+//            try {
+//                is.close();
+//                System.out.println("instream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(outstream!=null) {
+//            try {
+//                outstream.close();
+//                System.out.println("outstream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(socket!=null) {
+//            try {
+//                socket.close();
+//                System.out.println("Socket closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         option = 0;
         input = "f";
         System.out.println("option Changed into: " + option);
-        Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
     }
+
 
     public void image_move(float PosX, float PosY, ImageView imageView){
         ObjectAnimator animatorX = ObjectAnimator.ofFloat(
@@ -655,6 +659,9 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 target_x_edit.setText(String.format("%.3f", xy[0]) + " m");
                                 target_y_edit.setText(String.format("%.3f", xy[1]) + " m");
+                                LocationX = coordinate_transform_to_dp(xy[0], 0)[0];
+                                LocationY = coordinate_transform_to_dp(0, xy[1])[1];
+
                                 image_move(LocationX, LocationY, imageView);
                             }
                         });
@@ -665,7 +672,17 @@ public class MainActivity extends AppCompatActivity {
                         option = -1;
                     }
                 }
-            }catch(Exception e){ e.printStackTrace();}
+            }catch(Exception e){
+                connnect_btn.setBackgroundDrawable(drawable_background_blue);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run(){
+                        Toast.makeText(getApplicationContext(), "연결이 끊겼습니다", Toast.LENGTH_SHORT).show();
+                    }
+                }, 0);
+                e.printStackTrace();
+            }
         }
     }
 
