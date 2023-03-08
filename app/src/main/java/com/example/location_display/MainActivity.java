@@ -572,6 +572,8 @@ public class MainActivity extends AppCompatActivity {
         option = 0;
         input = "f";
         System.out.println("option Changed into: " + option);
+        Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
+
     }
 
 
