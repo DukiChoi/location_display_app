@@ -47,8 +47,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -699,7 +701,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void socket_open() throws IOException {
-        socket = new Socket(host_edit.getText().toString(), Integer.parseInt(port_number_edit.getText().toString()));
+        int TIMEOUT = 3000;
+        socket = new Socket();
+        SocketAddress socketAddress = new InetSocketAddress(host_edit.getText().toString(), Integer.parseInt(port_number_edit.getText().toString()));
+        socket.connect(socketAddress, TIMEOUT);
         is = socket.getInputStream();
         outstream = new ObjectOutputStream(socket.getOutputStream());
         //서버로 데이터 주기
