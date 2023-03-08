@@ -266,12 +266,12 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="54dp"
+        android:layout_width="80dp"
         android:layout_height="23dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="52dp"
         android:layout_marginTop="28dp"
-        android:text="Target:"
         android:background="#90FFFFFF"
+        android:text="Target(x,y):"
         android:textColor="#0067a3"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -279,10 +279,10 @@
 
     <EditText
         android:id="@+id/Target_X_EditText"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:background="#90FFFFFF"
+        android:background="@drawable/edittext_background"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="@color/black"
@@ -293,9 +293,9 @@
 
     <EditText
         android:id="@+id/Target_Y_EditText"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
-        android:background="#90FFFFFF"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:background="@drawable/textview_background"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="@color/black"
@@ -306,11 +306,11 @@
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="80dp"
+        android:layout_width="110dp"
         android:layout_height="23dp"
         android:layout_marginTop="20dp"
         android:background="#90FFFFFF"
-        android:text="Destination:"
+        android:text="Destination(x,y):"
         android:textColor="#0067a3"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
@@ -320,10 +320,10 @@
 
     <EditText
         android:id="@+id/Dest_X_EditText2"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:background="#90FFFFFF"
+        android:background="@drawable/edittext_background"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="#ff0000"
@@ -334,9 +334,9 @@
 
     <EditText
         android:id="@+id/Dest_Y_EditText2"
-        android:layout_width="85dp"
-        android:layout_height="50dp"
-        android:background="#90FFFFFF"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:background="@drawable/edittext_background"
         android:enabled="false"
         android:inputType="numberSigned"
         android:textColor="#ff0000"

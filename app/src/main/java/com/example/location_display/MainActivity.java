@@ -466,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
         if(dest_x_edit.getText().toString().equals("")){
             x = 0;
             dest_x_edit.setText("0");
-            dest_x_edit2.setText("0 m");
+            dest_x_edit2.setText("0");
         }else {
             x = Float.parseFloat(dest_x_edit.getText().toString());
             dest_x_edit2.setText(dest_x_edit.getText().toString()+" m");
@@ -474,14 +474,14 @@ public class MainActivity extends AppCompatActivity {
         if(dest_y_edit.getText().toString().equals("")){
             y = 0;
             dest_y_edit.setText("0");
-            dest_y_edit2.setText("0 m");
+            dest_y_edit2.setText("0");
         }else {
             y = Float.parseFloat(dest_y_edit.getText().toString());
             dest_y_edit2.setText(dest_y_edit.getText().toString()+" m");
         }
         float[] temp = coordinate_transform_to_dp(x, y);
         image_move(temp[0], temp[1], imageView2);
-        Toast.makeText(getApplicationContext(), "X: " + x + " m" + "\nY: " + y + " m", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + y, Toast.LENGTH_SHORT).show();
         //여기선 imageView2 즉 destination.png를 이동시켜준다.
     }
 
@@ -664,8 +664,8 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                target_x_edit.setText(String.format("%.3f", xy[0]) + " m");
-                                target_y_edit.setText(String.format("%.3f", xy[1]) + " m");
+                                target_x_edit.setText(String.format("%.2f", xy[0]));
+                                target_y_edit.setText(String.format("%.2f", xy[1]));
                                 LocationX = coordinate_transform_to_dp(xy[0], 0)[0];
                                 LocationY = coordinate_transform_to_dp(0, xy[1])[1];
 
