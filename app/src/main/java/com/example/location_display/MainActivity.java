@@ -524,7 +524,12 @@ public class MainActivity extends AppCompatActivity {
                         socket_open();
                         ClientThread clientThread = new ClientThread(socket, is);
                         connnect_btn.setBackgroundDrawable(drawable_background_green);
-                        Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run(){
+                                Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
+                            }
+                        }, 0);
                         clientThread.start();
 
                     } catch (Exception e) {
