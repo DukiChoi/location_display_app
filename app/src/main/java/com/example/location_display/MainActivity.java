@@ -498,7 +498,6 @@ public class MainActivity extends AppCompatActivity {
             //포트넘버 저장
             editor.putString("port_number", port_number_edit.getText().toString());
             editor.apply();
-            Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
             System.out.println("Host is changed into : " + host);
             disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
 //            try {
@@ -525,6 +524,7 @@ public class MainActivity extends AppCompatActivity {
                         socket_open();
                         ClientThread clientThread = new ClientThread(socket, is);
                         connnect_btn.setBackgroundDrawable(drawable_background_green);
+                        Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
                         clientThread.start();
 
                     } catch (Exception e) {
