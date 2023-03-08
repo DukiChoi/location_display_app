@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     // 여기에는 px값으로 저장한다.
     float LocationX = 0;
     float LocationY = 0;
+    float dest_x = 0;
+    float dest_y = 0;
     float angle_to_turn = 0;
     float last_angle = 0;
     float dp_value = 3;
@@ -291,9 +293,7 @@ public class MainActivity extends AppCompatActivity {
         image_move(180, 400, imageView2);
         //초기 dest 값들 표시하기
         dest_x_edit.setText("0");
-        dest_x_edit2.setText("0");
         dest_y_edit.setText("0");
-        dest_y_edit2.setText("0");
         IpThread ipthread = new IpThread();
         ipthread.start();
 
@@ -469,26 +469,23 @@ public class MainActivity extends AppCompatActivity {
     //EditText 속 좌표를 받아와서 그 좌표로 이미지를 이동시키는 버튼 함수
     public void DestinationSet(View view) {
         enter_btn.setBackgroundDrawable(drawable_background_skyblue);
-        float x, y = 0;
         if(dest_x_edit.getText().toString().equals("")){
-            x = 0;
             dest_x_edit.setText("0");
-            dest_x_edit2.setText("0");
+            dest_x = 0;
         }else {
-            x = Float.parseFloat(dest_x_edit.getText().toString());
-            dest_x_edit2.setText(dest_x_edit.getText().toString());
+//            dest_x_edit2.setText(dest_x_edit.getText().toString());
+            dest_x = Float.parseFloat(dest_x_edit.getText().toString());
         }
         if(dest_y_edit.getText().toString().equals("")){
-            y = 0;
             dest_y_edit.setText("0");
-            dest_y_edit2.setText("0");
-        }else {
-            y = Float.parseFloat(dest_y_edit.getText().toString());
-            dest_y_edit2.setText(dest_y_edit.getText().toString());
+            dest_y = 0;
+//        }else {
+//            dest_y_edit2.setText(dest_y_edit.getText().toString());
+            dest_y = Float.parseFloat(dest_y_edit.getText().toString());
         }
-        float[] temp = coordinate_transform_to_dp(x, y);
+        float[] temp = coordinate_transform_to_dp(dest_x, dest_y);
         image_move(temp[0], temp[1], imageView2);
-        Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + y, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "X: " + dest_x + "\nY: " + dest_y, Toast.LENGTH_SHORT).show();
         //여기선 imageView2 즉 destination.png를 이동시켜준다.
     }
 
@@ -496,14 +493,14 @@ public class MainActivity extends AppCompatActivity {
         if(!host_edit.getText().toString().equals("") && !port_number_edit.getText().toString().equals("")) {
             input = ".";
             option = -1;
+            System.out.println("option Changed into: " + option);
             String host = host_edit.getText().toString();
             //포트넘버 저장
             editor.putString("port_number", port_number_edit.getText().toString());
             editor.apply();
             Toast.makeText(getApplicationContext(), host + " 로 연결합니다 ", Toast.LENGTH_SHORT).show();
             System.out.println("Host is changed into : " + host);
-            connnect_btn.setBackgroundDrawable(drawable_background_green);
-            disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
+
 //            try {
 //                is.close();
 //            } catch (IOException e) {
@@ -527,6 +524,8 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         socket_open();
                         ClientThread clientThread = new ClientThread(socket, is);
+                        connnect_btn.setBackgroundDrawable(drawable_background_green);
+                        disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
                         clientThread.start();
 
                     } catch (Exception e) {
@@ -549,38 +548,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void disconnect(View view){
+    public void disconnect(View view) throws IOException {
         connnect_btn.setBackgroundDrawable(drawable_background_blue);
-        disconnnect_btn.setBackgroundDrawable(drawable_background_red);
-//        if (is!=null) {
-//            try {
-//                is.close();
-//                System.out.println("instream closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(outstream!=null) {
-//            try {
-//                outstream.close();
-//                System.out.println("outstream closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        if(socket!=null) {
-//            try {
-//                socket.close();
-//                System.out.println("Socket closed");
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        option = 0;
-        input = "f";
-        System.out.println("option Changed into: " + option);
-        Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
-
+        if(socket!=null && socket.isBound()) {
+            input = "f";
+            option = 0;
+            System.out.println("option Changed into: " + option);
+            System.out.println("Socket closed");
+            disconnnect_btn.setBackgroundDrawable(drawable_background_red);
+            Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
+        }else{
+            System.out.println("Socket is not bound, so I couldn't close");
+            disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
+            Toast.makeText(getApplicationContext(), "연결되어 있지 않습니다", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -671,8 +652,10 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                target_x_edit.setText(String.format("%.2f", xy[0]-Float.parseFloat(dest_x_edit2.getText().toString())));
-                                target_y_edit.setText(String.format("%.2f", xy[1]-Float.parseFloat(dest_y_edit2.getText().toString())));
+                                target_x_edit.setText(String.format("%.2f", xy[0]));
+                                target_y_edit.setText(String.format("%.2f", xy[1]));
+                                dest_x_edit2.setText(String.format("%.2f", dest_x-xy[0]));
+                                dest_y_edit2.setText(String.format("%.2f", dest_y-xy[1]));
                                 LocationX = coordinate_transform_to_dp(xy[0], 0)[0];
                                 LocationY = coordinate_transform_to_dp(0, xy[1])[1];
 
@@ -682,8 +665,18 @@ public class MainActivity extends AppCompatActivity {
 
                     }else if(option == 1){
                         option = -1;
+                        System.out.println("option Changed into: " + option);
                     }else if(option == 0){
+                        if(socket.isBound()) {
+                            try{
+                                socket_send(input);
+                                socket.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                         option = -1;
+                        System.out.println("option Changed into: " + option);
                     }
                 }
             }catch(Exception e){
@@ -702,6 +695,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void socket_open() throws IOException {
         int TIMEOUT = 3000;
+        //socket = new Socket(host_edit.getText().toString(), Integer.parseInt(port_number_edit.getText().toString()));
         socket = new Socket();
         SocketAddress socketAddress = new InetSocketAddress(host_edit.getText().toString(), Integer.parseInt(port_number_edit.getText().toString()));
         socket.connect(socketAddress, TIMEOUT);
