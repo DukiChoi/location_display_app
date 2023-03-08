@@ -287,6 +287,11 @@ public class MainActivity extends AppCompatActivity {
         //초기에 0,0으로 이동해주기
         image_move(180, 400, imageView);
         image_move(180, 400, imageView2);
+        //초기 dest 값들 표시하기
+        dest_x_edit.setText("0");
+        dest_x_edit2.setText("0");
+        dest_y_edit.setText("0");
+        dest_y_edit2.setText("0");
         IpThread ipthread = new IpThread();
         ipthread.start();
 
