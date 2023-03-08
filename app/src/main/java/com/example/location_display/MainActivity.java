@@ -554,15 +554,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void disconnect(View view) throws IOException {
         connnect_btn.setBackgroundDrawable(drawable_background_blue);
-        if(socket!=null && socket.isBound()) {
+        if(socket!=null && socket.isBound() && socket.isConnected()) {
             input = "f";
             option = 0;
             System.out.println("option Changed into: " + option);
             System.out.println("Socket closed");
             disconnnect_btn.setBackgroundDrawable(drawable_background_red);
             Toast.makeText(getApplicationContext(), "연결을 끊었습니다", Toast.LENGTH_SHORT).show();
-        }else{
+        }else if(socket.isConnected()){
+            System.out.println("Socket is not connected, so I couldn't close");
+            disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
+            Toast.makeText(getApplicationContext(), "연결되어 있지 않습니다", Toast.LENGTH_SHORT).show();
+        }else if(socket.isBound()){
             System.out.println("Socket is not bound, so I couldn't close");
+            disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
+            Toast.makeText(getApplicationContext(), "연결되어 있지 않습니다", Toast.LENGTH_SHORT).show();
+        }else{
+            System.out.println("Neither bound nor connected, so I couldn't close");
             disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
             Toast.makeText(getApplicationContext(), "연결되어 있지 않습니다", Toast.LENGTH_SHORT).show();
         }
