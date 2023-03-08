@@ -11,6 +11,7 @@ import android.bluetooth.BluetoothGattServer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
 
         //설정 저장하는 부분
@@ -191,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final EditText et = new EditText(MainActivity.this);
                 //EditText의 Inputtype을 Number로 해줌
-                et.setInputType(20);
                 //et.setKeyListener(new DigitsKeyListener().getInstance(false,true));
+                et.setInputType(InputType.TYPE_DATETIME_VARIATION_TIME);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("ip 세팅");
 
@@ -283,8 +285,8 @@ public class MainActivity extends AppCompatActivity {
         imageView.bringToFront();
         imageView2.bringToFront();
         //초기에 0,0으로 이동해주기
-        image_move(160, 400, imageView);
-        image_move(160, 400, imageView2);
+        image_move(180, 400, imageView);
+        image_move(180, 400, imageView2);
         IpThread ipthread = new IpThread();
         ipthread.start();
 
@@ -803,13 +805,13 @@ public class MainActivity extends AppCompatActivity {
         return new String[] {str1, str2};
     }
     public static float[] coordinate_transform_to_dp(float x, float y){
-        x = 40*(x+4);
+        x = (float) (40*(x+4.5));
         y = (40)*(-1*y+10);
         return new float[] {x, y};
     }
 
     public static float[] coordinate_transform_from_dp(float x, float y){
-        x = x/40-4;
+        x = (float) (x/40-4.5);
         y = -1*(y/40 - 10);
         return new float[] {x, y};
     }
