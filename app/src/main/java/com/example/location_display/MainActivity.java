@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
             dest_x_edit2.setText("0");
         }else {
             x = Float.parseFloat(dest_x_edit.getText().toString());
-            dest_x_edit2.setText(dest_x_edit.getText().toString()+" m");
+            dest_x_edit2.setText(dest_x_edit.getText().toString());
         }
         if(dest_y_edit.getText().toString().equals("")){
             y = 0;
@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
             dest_y_edit2.setText("0");
         }else {
             y = Float.parseFloat(dest_y_edit.getText().toString());
-            dest_y_edit2.setText(dest_y_edit.getText().toString()+" m");
+            dest_y_edit2.setText(dest_y_edit.getText().toString());
         }
         float[] temp = coordinate_transform_to_dp(x, y);
         image_move(temp[0], temp[1], imageView2);
@@ -664,8 +664,8 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                target_x_edit.setText(String.format("%.2f", xy[0]));
-                                target_y_edit.setText(String.format("%.2f", xy[1]));
+                                target_x_edit.setText(String.format("%.2f", xy[0]-Float.parseFloat(dest_x_edit2.getText().toString())));
+                                target_y_edit.setText(String.format("%.2f", xy[1]-Float.parseFloat(dest_y_edit2.getText().toString())));
                                 LocationX = coordinate_transform_to_dp(xy[0], 0)[0];
                                 LocationY = coordinate_transform_to_dp(0, xy[1])[1];
 
