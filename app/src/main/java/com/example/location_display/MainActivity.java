@@ -109,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter;
     ArrayAdapter<String> ipadapter;
     Spinner ipSpinner;
-
+    //이건 종료 시 시간 변수
+    private final long finishtime = 1000;
+    private long presstime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,25 +359,35 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        return false;
 //    }
+    
+    //홈버튼과 메뉴버튼 모두 onStop이 호출되어서 이걸 건드리면 안 되는 듯
     @Override
     protected void onStop(){
         super.onStop();
-        try {
-            instream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            outstream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        if(is!=null) {
+//            try {
+//                is.close();
+//                System.out.println("Inputstream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(outstream!=null) {
+//            try {
+//                outstream.close();
+//                System.out.println("outputstream closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        if(socket!=null) {
+//            try {
+//                socket.close();
+//                System.out.println("Socket closed");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -385,6 +397,74 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+    }
+    //앱 강제종료시
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(is!=null) {
+            try {
+                is.close();
+                System.out.println("Inputstream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(outstream!=null) {
+            try {
+                outstream.close();
+                System.out.println("outputstream closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(socket!=null) {
+            try {
+                socket.close();
+                System.out.println("Socket closed");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - presstime;
+
+        if (0 <= intervalTime && finishtime >= intervalTime)
+        {
+            if(is!=null) {
+                try {
+                    is.close();
+                    System.out.println("Inputstream closed");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(outstream!=null) {
+                try {
+                    outstream.close();
+                    System.out.println("outputstream closed");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(socket!=null) {
+                try {
+                    socket.close();
+                    System.out.println("Socket closed");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            finish();
+        }
+        else
+        {
+            presstime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
