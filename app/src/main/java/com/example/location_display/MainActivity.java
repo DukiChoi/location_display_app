@@ -500,6 +500,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             System.out.println("Host is changed into : " + host);
             disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
+            connnect_btn.setBackgroundDrawable(drawable_background_green);
 //            try {
 //                is.close();
 //            } catch (IOException e) {
