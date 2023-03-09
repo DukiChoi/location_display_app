@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
         if(dest_y_edit.getText().toString().equals("")){
             dest_y_edit.setText("0");
             dest_y = 0;
-//        }else {
+        }else {
 //            dest_y_edit2.setText(dest_y_edit.getText().toString());
             dest_y = Float.parseFloat(dest_y_edit.getText().toString());
         }
