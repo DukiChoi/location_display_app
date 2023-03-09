@@ -525,6 +525,7 @@ public class MainActivity extends AppCompatActivity {
                         socket_open();
                         ClientThread clientThread = new ClientThread(socket, is);
                         connnect_btn.setBackgroundDrawable(drawable_background_green);
+                        disconnnect_btn.setBackgroundDrawable(drawable_background_blue);
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run(){
@@ -556,6 +557,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void disconnect(View view) throws IOException {
         connnect_btn.setBackgroundDrawable(drawable_background_blue);
+        disconnnect_btn.setBackgroundDrawable(drawable_background_red);
         if(socket!=null && socket.isBound() && socket.isConnected()) {
             input = "f";
             option = 0;
