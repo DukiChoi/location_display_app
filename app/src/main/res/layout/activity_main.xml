@@ -158,7 +158,7 @@
 
         <Spinner
             android:id="@+id/spinner_ip"
-            android:layout_width="match_parent"
+            android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@android:drawable/btn_dropdown"
             android:dropDownWidth="wrap_content"
